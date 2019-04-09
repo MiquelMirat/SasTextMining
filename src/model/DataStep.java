@@ -30,6 +30,7 @@ public class DataStep extends Step{
     @Override
     public void divideStatements(){
         String[] words = this.getRawContent().split(" ");
+        //System.out.println(words.length);
         boolean data = false, set = false, keep = false, drop = false;
         for(String w: words){
             if(w.equalsIgnoreCase("DATA")){ data = true; }
@@ -38,13 +39,25 @@ public class DataStep extends Step{
             if(w.toUpperCase().contains("DROP=")){ drop = true; data = false; keep = false;}
             if(w.equalsIgnoreCase(";")){ data = false; set = false; keep = false; drop = false; }
             
-            if(data) {this.data += w + " ";}
-            if(set)  {this.set += w + " ";}
-            if(keep) {this.keep += w + " ";}
-            if(drop) {this.drop += w + " ";}
+            if(data) {this.setData(this.getData() + w + " "); System.out.println(this.data);}
+            if(set)  {this.setSet(this.getSet() + w + " "); System.out.println(this.set);}
+            if(keep) {this.setKeep(this.getKeep() + w + " "); System.out.println(this.keep);}
+            if(drop) {this.setDrop(this.getDrop() + w + " "); System.out.println(this.drop);}
         }
         
     }
+
+    @Override
+    public void calcOutputTables() {
+        //System.out.println(this.getRawContent());
+        if(this.getSet().equals("")){
+            System.out.println("no hay na");
+        }else{
+            System.out.println("hay algo");
+        }
+        
+    }
+    
 
     public String getData() {return data;}
     public void setData(String data) {this.data = data;}

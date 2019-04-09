@@ -30,9 +30,14 @@ public class Table {
         this.alias = "";
         this.columnas = new ArrayList<>();
     }
-    
-    public Table withAliasAndSchema(){
-        
+    //CALC OUTPUT TABLE SCHEMA
+    public Table withSchema(){
+        if(this.name.contains(".")){
+            this.setEsquema(this.name.split("\\.")[0]);
+            this.setName(this.name.split("\\.")[1]);
+        }else{
+            this.setEsquema("WORK");
+        }
         return this;
     }
 
@@ -44,6 +49,11 @@ public class Table {
     public void setAlias(String alias) {this.alias = alias;}
     public ArrayList<Column> getColumnas() {return columnas;}
     public void setColumnas(ArrayList<Column> columnas) {this.columnas = columnas;}
+
+    @Override
+    public String toString() {
+        return "Table{" + "\nname=" + name + ", \nesquema=" + esquema + ", \nalias=" + alias + ", \ncolumnas=" + columnas.size() + '}';
+    }
     
     
     

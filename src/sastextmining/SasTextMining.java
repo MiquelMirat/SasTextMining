@@ -9,8 +9,10 @@ package sastextmining;
 import java.util.ArrayList;
 import manager.FileManager;
 import manager.Manager;
+import model.DataStep;
 import model.ProcStep;
 import model.Step;
+import model.Table;
 
 /**
  *
@@ -32,13 +34,23 @@ public class SasTextMining {
             s.archiveComments();
             s.divideStatements();
             s.calcOutputTables();
-            
+            //HICE LAS TABLAS DE SALIDA DE LOS PROC, FALTA DE LAS DE ENTRADA
             
             
         }
-//        for(Step s: steps){
-//            System.out.println(s.toString());
-//        }
+        for(Step s: steps){
+//            if(s instanceof ProcStep){
+//                if(((ProcStep) s).getType().equalsIgnoreCase("sort") || ((ProcStep) s).getType().equalsIgnoreCase("transpose")){
+//                    System.out.println(s.toString());
+//                }
+//            }
+//            if(s instanceof DataStep){
+//                //System.out.println("STEP " +s.getClass().getName());
+//                for(Table t: s.getOut_tables()){
+//                    System.out.println(t.toString());
+//                }
+//            }
+        }
         
 
         //archivamos los comnetarios de los steps

@@ -134,23 +134,24 @@ public class ProcStep extends Step{
         Table temp = null;
         switch(type.toUpperCase()){
             case "SQL":
+                if(this.getCreate() == ""){ break; }
                 content = this.getCreate().split(" ")[2];
-                temp = new Table(content)/*.withAliasAndSchema()*/;
-                //System.out.println(temp.getAlias());
+                temp = new Table(content).withSchema();
                 this.getOut_tables().add(temp);
                 break;
             case "SORT":
             case "TRANSPOSE":
-                System.out.println(this.getOut());
+                if(this.getOut() == ""){ break; }
                 content = this.getOut().substring(4);
-                System.out.println(content);
                 for(String table: content.split(" ")){
-                    temp = new Table(table)/*.withAliasAndSchema()*/;
+                    temp = new Table(table).withSchema();
+                    //System.out.println(temp.getEsquema());
                     this.getOut_tables().add(temp); 
                 }
                 break;
             
         }
+        //System.out.println(this.getOut_tables().size());
     }
     
     
@@ -190,9 +191,16 @@ public class ProcStep extends Step{
     @Override
     public String toString() {
         if(type.equalsIgnoreCase("sql")){
-            return "ProcSqlStep{" +  ", \ncreate=" + create + ", \nselect=" + select + ", \nfrom=" + from + ", \nwhere=" + where + ", \ngroup=" + group + ", \norder=" + order;
+            return "ProcSqlStep{"
+                    +  "\ncreate=" + create + ", \nselect=" + select 
+                    + ", \nfrom=" + from + ", \nwhere=" + where 
+                    + ", \ngroup=" + group + ", \norder=" + order;
         }else{
-            return "Proc"+type+"Step{" + "\ndata=" + data + ", \nout=" + out + ", \nrename=" + rename + ", \nkeep=" + keep + ", \ndrop=" + drop + ", \nby=" + by + ", \nvar=" + var + '}';
+           return "Proc"+type+"Step{" 
+                   + "\ndata=" + data + ", \nout=" + out 
+                   + ", \nrename=" + rename + ", \nkeep=" + keep 
+                   + ", \ndrop=" + drop + ", \nby=" + by 
+                   + ", \nvar=" + var + '}';
         }
         
     }
