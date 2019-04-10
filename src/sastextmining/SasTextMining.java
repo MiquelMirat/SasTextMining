@@ -9,6 +9,7 @@ package sastextmining;
 import java.util.ArrayList;
 import manager.FileManager;
 import manager.Manager;
+import model.Column;
 import model.DataStep;
 import model.ProcStep;
 import model.Step;
@@ -34,11 +35,32 @@ public class SasTextMining {
             s.archiveComments();
             s.divideStatements();
             s.calcOutputTables();
-            //HICE LAS TABLAS DE SALIDA DE LOS PROC, FALTA DE LAS DE ENTRADA
+            s.calcInputTables();
+            for(Table t: s.getOut_tables()){
+                t.calcColumns(s);
+                //NOTA-- en los bloques transpose, las columnas son nulas siempre...
+                //FALTA ADECUARDLO A LOS CASE WHEN
+                //FALTA ADECUARLO A LOS KEEP
+                
+            }
+            
             
             
         }
         for(Step s: steps){
+            System.out.println("--------------STEEEEEEEEEEEEEEEEEEEEEEP--------");
+            System.out.println("\n\nTABLAS DE SALIDA");
+            for(Table t : s.getOut_tables()){
+                //System.out.println(t.toString()+"\n");
+                System.out.println("TABLA SALIDAAA");
+                for(Column c : t.getColumnas()){
+                    System.out.println(c.toString());
+                }
+            }
+//            System.out.println("\nTABLAS DE ENTRADA");
+//            for(Table t : s.getIn_tables()){
+//                System.out.println(t.toString()+"\n");
+//            }
 //            if(s instanceof ProcStep){
 //                if(((ProcStep) s).getType().equalsIgnoreCase("sort") || ((ProcStep) s).getType().equalsIgnoreCase("transpose")){
 //                    System.out.println(s.toString());

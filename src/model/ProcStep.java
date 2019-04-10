@@ -92,6 +92,9 @@ public class ProcStep extends Step{
                 case "ORDER":
                     order = true;
                     from = false; where = false; group = false; break;
+                case ";":
+                    from = false; order = false; group = false; break;
+                    
             }//end switch
             if(create)  {this.create += w + " ";}
             if(select)  {this.select += w + " ";}
@@ -100,6 +103,12 @@ public class ProcStep extends Step{
             if(group)   {this.group += w + " ";}
             if(order)   {this.order += w + " ";} 
         }//end foreach
+        
+        //TRIMEAMOS TODOS LOS BLOQUES
+        this.create = this.create.trim();   this.select = this.select.trim();
+        this.from = this.from.trim();       this.where = this.from.trim();
+        this.group = this.from.trim();      this.order = this.from.trim();
+        //System.out.println(this.from);
     }
     
     public void divideSortTransposeStatements(String[] words){
@@ -126,6 +135,11 @@ public class ProcStep extends Step{
             if (drop)   {this.drop += w + " ";}
             if (var)    {this.var += w + " ";}
         }
+        
+        this.data = this.data.trim();    this.out = this.out.trim();
+        this.rename = this.rename.trim();this.by = this.by.trim();
+        this.drop = this.drop.trim();    this.var = this.var.trim();
+        
     }
 
     @Override
@@ -134,6 +148,7 @@ public class ProcStep extends Step{
         Table temp = null;
         switch(type.toUpperCase()){
             case "SQL":
+                //System.out.println("SQL OUTPUT");
                 if(this.getCreate() == ""){ break; }
                 content = this.getCreate().split(" ")[2];
                 temp = new Table(content).withSchema();
@@ -141,6 +156,7 @@ public class ProcStep extends Step{
                 break;
             case "SORT":
             case "TRANSPOSE":
+                //System.out.println("SORT TRANSPOSE OUTPUT");
                 if(this.getOut() == ""){ break; }
                 content = this.getOut().substring(4);
                 for(String table: content.split(" ")){
@@ -149,10 +165,68 @@ public class ProcStep extends Step{
                     this.getOut_tables().add(temp); 
                 }
                 break;
-            
         }
-        //System.out.println(this.getOut_tables().size());
+        //System.out.println(this.getOut_tables().size()+this.getOut_tables().get(0).getName());
     }
+    
+    @Override
+    public void calcInputTables(){
+        String content = "";
+        Table temp = null;
+        switch(type.toUpperCase()){
+            case "SQL":
+                //System.out.println("SQL OUTPUT");
+                if(this.getFrom() == ""){ System.out.println("FROM VACIO"); break; }
+                String[] words = this.getFrom().split(" ");
+                //System.out.println("LENGHT FROM:" + words.length+ "TEXT FROM: "+ this.getFrom());
+                for(int i = 0; i<words.length; i++){
+                    if(words[i].equalsIgnoreCase("from") || words[i].equalsIgnoreCase("join")){
+                        temp = new Table(words[i+1]).withSchema();
+                        if(i+2 < words.length-1){
+                            if(words[i+2].equalsIgnoreCase("as")){
+                                temp.setAlias(words[i+3]);
+                            }else{
+                                if(!words[i+2].equalsIgnoreCase("on")){
+                                    temp.setAlias(words[i+2]);
+                                }
+                                if(words[i+3].equalsIgnoreCase("on")){
+                                    temp.setAlias(words[i+2]);
+                                }
+                            }
+                        }else{
+                            //System.out.println("no cabe"+ temp.getName());
+                            if(i+1 < words.length - 1){
+                                if(words[i+2].equalsIgnoreCase(";")){
+                                    //System.out.println("sin alias, por defecto el nombre de la tabla");
+                                    temp.setAlias(words[i+1]);
+                                }else{
+                                    temp.setAlias(words[i+2]);
+                                }
+                            }else{
+                                //System.out.println("sin alias, por defecto el nombre de la tabla");
+                                temp.setAlias(words[i+1]);
+                            }
+                        }
+                        //System.out.println("ALIAS: "+ temp.getAlias() + "   NAME: " +temp.getName());
+                    }
+                }
+                this.getIn_tables().add(temp);
+                break;
+            case "SORT":
+            case "TRANSPOSE":
+                //System.out.println("SORT TRANSPOSE OUTPUT");
+                if(this.getData() == ""){ System.out.println("DATA VACIO"); break; }
+                content = this.getData().substring(5);
+                for(String table: content.split(" ")){
+                    temp = new Table(table).withSchema();
+                    //System.out.println(temp.getEsquema());
+                    this.getIn_tables().add(temp); 
+                }
+                //System.out.println(this.getOut_tables().size());
+                break;
+        }
+    }
+    
     
     
     

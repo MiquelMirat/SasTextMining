@@ -61,12 +61,9 @@ abstract public class Step {
         }*/
         
     }
-   public void divideStatements(){
-       
-   }
-   public void calcOutputTables(){
-       
-   }
+   public void divideStatements(){}
+   public void calcOutputTables(){}
+   public void calcInputTables(){}
 
     public String getRawContent() {
         return rawContent;

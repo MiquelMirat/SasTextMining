@@ -7,6 +7,7 @@
 package model;
 
 import java.util.ArrayList;
+import manager.Manager;
 
 /**
  *
@@ -17,6 +18,7 @@ public class Table {
     private String esquema;
     private String alias;
     private ArrayList<Column> columnas;
+    private Manager manager = new Manager();
     
     public Table(){
         this.name = "";
@@ -40,6 +42,83 @@ public class Table {
         }
         return this;
     }
+    /**
+     * Método que calcula las columnas de las tablas de un step, 
+     * @param s Step parametro que contiene la lista de tablas a rellenar y la sentencia que las contiene.
+     */
+    public void calcColumns(Step s){
+        Column temp = null;
+        ArrayList<Table> tablas_entrada = s.getIn_tables();
+        String content = manager.chooseContentForStep(s);
+        String tempContent = "";
+        int count = 0;
+        //System.out.println("CONTENT: "+content);
+        for(char c : content.toCharArray()){
+            if(c == '('){
+                count++;
+            }else if(c == ')'){
+                count--;
+            }
+            if(count == 0 && c == ','){
+                c = '\n';
+            }
+            tempContent += c;
+        }
+        //System.out.println("TEMPCONTENT:  "+ tempContent);
+        content = tempContent;
+        String[] lines = content.split("\n");
+        String w1, w2, w3;
+        for(String l:lines){
+            temp = new Column();
+            switch(l.trim().split(" ").length){
+                case 1:
+                    if(l.equalsIgnoreCase("")){break;}
+                    System.out.println("ONE WORD--->"+l);
+                    temp = new Column(l).full();
+                    break;
+                case 2:
+                    System.out.println("TWO WORD--->"+l);
+                    w1 = l.split(" ")[0]; w2 = l.split(" ")[1];
+                    temp = new Column(w2).full(w1);
+                    
+//                    if(w1.contains(".")){
+//                        temp.setName(w1.split("\\.")[1]);
+//                        temp.setOrigen(w1.split("\\.")[0]);
+//                    }else{
+//                        temp.setName(w1.split("\\.")[1]);
+//                        temp.setOrigen("undefined");
+//                    }
+                    break;
+                case 3:
+                    System.out.println("THREE WORD--->"+l);
+                    l = l.trim();
+                    w1 = l.split(" ")[0]; w2 = l.split(" ")[1]; w3 = l.split(" ")[2];
+                    //System.out.println("W3: " +w1);
+                    temp = new Column(w3).full(w1);
+                    
+                    break;
+                case 4:
+                    System.out.println("4????--->"+l);
+                    break;
+                default:
+                    System.out.println("WHATT??"+l.split(" ").length+"--->"+l);
+                    String[] words = l.split(" ");
+                    String caseWhen = "";
+                    w3 = words[words.length-1];
+                    for(String w: words){
+                        if(w.equalsIgnoreCase("as")){break;}
+                        caseWhen += w + " ";
+                    }
+                    temp = new Column(caseWhen, w3, "undefined");
+                    //System.out.println("CASE WHEEEN: "+w3);    
+                
+            }
+            this.getColumnas().add(temp);
+        }
+        
+        
+        //String content = s instanceof ProcStep ? ((ProcStep) s).getType().equalsIgnoreCase("sql") ? ((ProcStep) s).getSelect() : ((ProcStep) s).getKeep() : ((DataStep) s).getKeep() ;
+    }
 
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
@@ -52,7 +131,7 @@ public class Table {
 
     @Override
     public String toString() {
-        return "Table{" + "\nname=" + name + ", \nesquema=" + esquema + ", \nalias=" + alias + ", \ncolumnas=" + columnas.size() + '}';
+        return "name=" + name + ", esquema=" + esquema + ", alias=" + alias + ", columnas=" + columnas.size();
     }
     
     

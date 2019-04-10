@@ -22,6 +22,20 @@ public class Manager {
     public Manager(){
         
     }
+    public String chooseContentForStep(Step s){
+        String content = "";
+        if(s instanceof ProcStep){
+            if(((ProcStep) s).getType().equalsIgnoreCase("sql")){
+                content = ((ProcStep) s).getSelect().substring(6).trim();
+            }else{
+                content = ((ProcStep) s).getKeep().trim();
+            }
+        }else{
+            content = ((DataStep) s).getKeep().trim();
+        }
+        return content;
+    }
+    
     
     public ArrayList<Step> calcSteps(String rawContent){
         boolean inStep = false;

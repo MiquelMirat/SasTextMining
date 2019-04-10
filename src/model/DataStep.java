@@ -39,23 +39,43 @@ public class DataStep extends Step{
             if(w.toUpperCase().contains("DROP=")){ drop = true; data = false; keep = false;}
             if(w.equalsIgnoreCase(";")){ data = false; set = false; keep = false; drop = false; }
             
-            if(data) {this.setData(this.getData() + w + " "); System.out.println(this.data);}
-            if(set)  {this.setSet(this.getSet() + w + " "); System.out.println(this.set);}
-            if(keep) {this.setKeep(this.getKeep() + w + " "); System.out.println(this.keep);}
-            if(drop) {this.setDrop(this.getDrop() + w + " "); System.out.println(this.drop);}
+            if(data) {this.setData(this.getData() + w + " ");/* System.out.println(this.data);*/}
+            if(set)  {this.setSet(this.getSet() + w + " ");/* System.out.println(this.set);*/}
+            if(keep) {this.setKeep(this.getKeep() + w + " ");/* System.out.println(this.keep);*/}
+            if(drop) {this.setDrop(this.getDrop() + w + " ");/* System.out.println(this.drop);*/}
         }
         
     }
 
     @Override
     public void calcOutputTables() {
-        //System.out.println(this.getRawContent());
-        if(this.getSet().equals("")){
-            System.out.println("no hay na");
+        Table temp = null;
+        if(this.getData().equals("")){
+            System.out.println("no hay nada en DATA...");
         }else{
-            System.out.println("hay algo");
+            //System.out.println("hay algo");
+            String[] tablas = this.getData().substring(5).split(" ");
+            for (String t: tablas){
+                temp = new Table(t).withSchema();
+                this.getOut_tables().add(temp); 
+            }
         }
-        
+        //System.out.println(this.getOut_tables().size()+this.getOut_tables().get(0).getName());
+    }
+    @Override
+    public void calcInputTables(){
+        Table temp = null;
+        if(this.getSet().equals("")){
+            System.out.println("no hay nada en SET...");
+        }else{
+            //System.out.println("hay algo");
+            String[] tablas = this.getSet().substring(4).split(" ");
+            for (String t: tablas){
+                temp = new Table(t).withSchema();
+                this.getIn_tables().add(temp);
+            }
+        }
+        //System.out.println(this.getIn_tables().size());
     }
     
 
