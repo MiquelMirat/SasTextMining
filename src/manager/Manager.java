@@ -36,7 +36,7 @@ public class Manager {
     public String chooseContentForStep(Step s){
         String content = "";
         if(s instanceof ProcStep){
-            if(((ProcStep) s).getType().equalsIgnoreCase("sql")){
+            if(((ProcStep) s).getProcType().equalsIgnoreCase("sql")){
                 content = ((ProcStep) s).getSelect().substring(6).trim();
             }else{
                 content = ((ProcStep) s).getKeep().trim();
@@ -61,11 +61,11 @@ public class Manager {
         
         for (String w: words){
             if(w.equalsIgnoreCase("proc")){
-                temp = new ProcStep();
+                temp = new ProcStep("PROC");
                 inStep = true;
             }
             if(w.equalsIgnoreCase("data")){
-                temp = new DataStep();
+                temp = new DataStep("DATA");
                 inStep = true;
             }
             if(w.equalsIgnoreCase("quit") || w.equalsIgnoreCase("run")){
@@ -80,6 +80,31 @@ public class Manager {
         //return steps;
     }
 
+    public static String tabbed(String text){
+        text = text.trim();
+        if(text.length() > 23){
+            return text;
+        }else if(text.length() > 15){
+            return text  +  "\t";
+        }else if(text.length() > 9){
+            return text + "\t\t";
+        }else if(text.length() > 1){
+            return text + "\t\t\t";
+        }else{
+            return text + "\t\t\t\t";
+        }
+    }
+    public static String withRightPadding(String text){
+        int n_spaces = 24 - text.length();
+        String spaces = "";
+        for(int i = 0; i<n_spaces;i++){
+            spaces += " ";
+        }
+        return text + spaces;
+    }
+    
+    
+    
     public ArrayList<Step> getSteps() {return steps;}
     public void setSteps(ArrayList<Step> steps) {this.steps = steps;}
     public String getContent() {return content;}

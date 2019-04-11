@@ -6,6 +6,8 @@
 
 package model;
 
+import manager.Manager;
+
 /**
  *
  * @author miquel.mirat
@@ -77,10 +79,10 @@ public class Column {
                 + "\t\t alias=" + alias 
                 + "\t\t  aliasOrigen="+ aliasOrigen +
                 "\t\tTabla Origen="+tablaOrigen.getName();*/
-        return "NAME: "+withRightPadding(name)
-              +"ALIAS: "+withRightPadding(alias)
-              +"ALIAS ORIGEN: "+withRightPadding(aliasOrigen)
-              +"TABLA ORIGEN: "+withRightPadding(tablaOrigen.getName());
+        return "NAME: "+Manager.withRightPadding(name)
+              +"ALIAS: "+Manager.withRightPadding(alias)
+              +"ALIAS ORIGEN: "+Manager.withRightPadding(aliasOrigen)
+              +"TABLA ORIGEN: "+Manager.withRightPadding(tablaOrigen.getName());
 
     }
     public String tabbed(String text){
@@ -96,14 +98,6 @@ public class Column {
         }else{
             return text + "\t\t\t\t";
         }
-    }
-    public String withRightPadding(String text){
-        int n_spaces = 24 - text.length();
-        String spaces = "";
-        for(int i = 0; i<n_spaces;i++){
-            spaces += " ";
-        }
-        return text + spaces;
     }
     
     

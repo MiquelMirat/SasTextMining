@@ -6,6 +6,8 @@
 
 package model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author miquel.mirat
@@ -15,7 +17,7 @@ public class ProcStep extends Step{
     //caracteristicas
     
     //COMMON
-    private String type;
+    private String procType;
     //SQL
     private String create;
     private String select;
@@ -36,22 +38,29 @@ public class ProcStep extends Step{
     //contructor
     public ProcStep() {
         super();
-        this.create = "";
-        this.select = "";
-        this.from = "";
-        this.where = "";
-        this.group = "";
-        this.order = "";
+        this.create = "";this.select = "";
+        this.from = "";this.where = "";
+        this.group = "";this.order = "";
         
-        this.data = "";
-        this.out = "";
-        this.rename = "";
-        this.keep = "";
-        this.drop = "";
-        this.by = "";
+        this.data = "";this.out = "";
+        this.rename = "";this.keep = "";
+        this.drop = "";this.by = "";
         
         this.var = "";
     }
+    public ProcStep(String type) {
+        super(type);
+        this.create = "";this.select = "";
+        this.from = "";this.where = "";
+        this.group = "";this.order = "";
+        
+        this.data = "";this.out = "";
+        this.rename = "";this.keep = "";
+        this.drop = "";this.by = "";
+        
+        this.var = "";
+    }
+    
 
     @Override
     public void divideStatements(){
@@ -59,7 +68,7 @@ public class ProcStep extends Step{
         String[] words = this.getRawContent().split(" ");
         //System.out.println(words[2]);
         String type = words[2].toUpperCase();
-        this.setType(type);
+        this.setProcType(type);
         switch(type){
             case "SQL":
                 this.divideSqlStatements(words);break;
@@ -73,6 +82,7 @@ public class ProcStep extends Step{
     
     public void divideSqlStatements(String[] words){
         boolean create = false, select = false, from = false, where = false, group = false, order = false;
+        //System.out.println("ORDER BEFORE ASIGNEMENT:" + this.order);
         for(String w: words){
             switch(w.toUpperCase()){
                 case "CREATE":
@@ -102,12 +112,13 @@ public class ProcStep extends Step{
             if(where)   {this.where += w + " ";}
             if(group)   {this.group += w + " ";}
             if(order)   {this.order += w + " ";} 
+            
         }//end foreach
         
         //TRIMEAMOS TODOS LOS BLOQUES
         this.create = this.create.trim();   this.select = this.select.trim();
-        this.from = this.from.trim();       this.where = this.from.trim();
-        this.group = this.from.trim();      this.order = this.from.trim();
+        this.from = this.from.trim();       this.where = this.where.trim();
+        this.group = this.group.trim();      this.order = this.order.trim();
         //System.out.println(this.from);
     }
     
@@ -146,7 +157,7 @@ public class ProcStep extends Step{
     public void calcOutputTables() {
         String content = "";
         Table temp = null;
-        switch(type.toUpperCase()){
+        switch(procType.toUpperCase()){
             case "SQL":
                 //System.out.println("SQL OUTPUT");
                 if(this.getCreate() == ""){ break; }
@@ -173,7 +184,7 @@ public class ProcStep extends Step{
     public void calcInputTables(){
         String content = "";
         Table temp = null;
-        switch(type.toUpperCase()){
+        switch(procType.toUpperCase()){
             case "SQL":
                 //System.out.println("SQL OUTPUT");
                 if(this.getFrom() == ""){ System.out.println("FROM VACIO"); break; }
@@ -224,16 +235,80 @@ public class ProcStep extends Step{
         }
     }
     
+    @Override 
+    public void calcSortings(){
+        switch(procType.toLowerCase()){
+            case "sql":
+                //System.out.println("CALC SQL SORTINGS");
+                calcSqlSortings();
+                break;
+            case "sort":
+                //System.out.println("CALC sort SORTINGS");
+                calcSortSortings();
+                break;
+            case "transpose":
+                //System.out.println("CALC transpose SORTINGS");
+                ArrayList<String> temp = new ArrayList<>();
+                temp.add("NO SORTINGS");
+                this.setSorted_by(temp);
+                
+        }
+    }
+    private void calcSqlSortings(){
+        ArrayList<String> temp = new ArrayList<>();
+        String content = this.getOrder();
+        if(!content.equals("")){
+            for (String w: content.substring(9).split(" ")){
+                w = w.replace(";","");
+                temp.add(w);
+            }
+        }else{
+                temp.add("NO SORTINGS");
+        }
+        this.setSorted_by(temp);
+    }
+    private void calcSortSortings(){
+        ArrayList<String> temp = new ArrayList<>();
+        String content = this.getBy();
+        //System.out.println(content);
+        if(!content.equals("")){
+            for (String w: content.substring(3).split(" ")){
+                w = w.replace(";","");
+                //System.out.println(w);
+                temp.add(w);
+            }
+        }else{
+            temp.add("NO SORTINGS");
+        }
+        this.setSorted_by(temp);
+    }
     
     
+    @Override
+    public void calcFilters() {
+        ArrayList<String> temp = new ArrayList<>();
+
+        if (this.getProcType().equalsIgnoreCase("sql")) {
+            String content = this.getWhere();
+            if (!content.equals("")) {
+                for (String w : content.substring(3).split(" ")) {
+                    w = w.replace(";", "");
+                    //System.out.println(w);
+                    temp.add(w);
+                }
+            } else {
+                temp.add("NO FILTERS");
+            }
+        }
+    }
     
     
     
     
     
     //getters y setters
-    public String getType() {return type;}
-    public void setType(String type) {this.type = type;}
+    public String getProcType() {return procType;}
+    public void setProcType(String type) {this.procType = type;}
     public String getCreate() {return create;}
     public void setCreate(String create) {this.create = create;}
     public String getSelect() {return select;}
@@ -261,13 +336,13 @@ public class ProcStep extends Step{
 
     @Override
     public String toString() {
-        if(type.equalsIgnoreCase("sql")){
+        if(procType.equalsIgnoreCase("sql")){
             return "ProcSqlStep{"
                     +  "\ncreate=" + create + ", \nselect=" + select 
                     + ", \nfrom=" + from + ", \nwhere=" + where 
                     + ", \ngroup=" + group + ", \norder=" + order;
         }else{
-           return "Proc"+type+"Step{" 
+           return "Proc"+procType+"Step{" 
                    + "\ndata=" + data + ", \nout=" + out 
                    + ", \nrename=" + rename + ", \nkeep=" + keep 
                    + ", \ndrop=" + drop + ", \nby=" + by 

@@ -40,14 +40,16 @@ public class SasTextMining {
                 //FALTA ADECUARDLO A LOS CASE WHEN
 
             }
+            s.calcFilters();
             s.calcSortings();
+            
         }
         for (Step s : mng.getSteps()) {
-            System.out.println("\n--------------STEEEEEEEEEEEEEEEEEEEEEEP--------");
+            System.out.println("\n--------------STEP " + s.getType() + "------------------");
             System.out.println("\nTABLAS DE SALIDA");
             for (Table t : s.getOut_tables()) {
                 //System.out.print("\t");
-                System.out.println("\t" + t.toString() + "\nCOLUMNAS");
+                System.out.println("\t" + t.toString() + "\n  COLUMNAS");
                 for (Column c : t.getColumnas()) {
                     System.out.println("\t" + c.toString());
                 }
@@ -56,8 +58,15 @@ public class SasTextMining {
             for (Table t : s.getIn_tables()) {
                 System.out.println("\t" + t.toString());
             }
-            System.out.println("\nORDENACIONES");
+            System.out.println("\nFILTROS");
+            for (String f: s.getFilters()){
+                System.out.println("\t" + f);
+            }
             
+            System.out.println("\nORDENACIONES (en orden de importancia)");
+            for(String o: s.getSorted_by()){
+                System.out.println("\t" + o);
+            }
 
         }
 

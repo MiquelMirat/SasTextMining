@@ -26,6 +26,13 @@ public class DataStep extends Step{
         this.keep = "";
         this.drop = "";
     }
+    public DataStep(String type){
+        super(type);
+        this.data = "";
+        this.set = "";
+        this.keep = "";
+        this.drop = "";
+    }
        
     
     @Override
@@ -77,6 +84,11 @@ public class DataStep extends Step{
             }
         }
         //System.out.println(this.getIn_tables().size());
+    }
+    
+    @Override 
+    public void calcSortings(){
+        
     }
     
 

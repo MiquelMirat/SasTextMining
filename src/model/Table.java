@@ -196,7 +196,11 @@ public class Table {
 
     @Override
     public String toString() {
-        return "name=" + name + ", esquema=" + esquema + ", alias=" + alias + ", columnas=" + columnas.size();
+        //return "name=" + name + ", esquema=" + esquema + ", alias=" + alias + ", columnas=" + columnas.size();
+        return "NAME: "+Manager.withRightPadding(name)
+              +"ESQUEMA: "+Manager.withRightPadding(esquema)
+              +"ALIAS: "+Manager.withRightPadding(alias)
+              +"N. COLUMNAS: "+Manager.withRightPadding(String.valueOf(columnas.size()));
     }
 
 }
