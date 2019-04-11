@@ -64,6 +64,7 @@ abstract public class Step {
    public void divideStatements(){}
    public void calcOutputTables(){}
    public void calcInputTables(){}
+   public void calcSortings(){}
 
     public String getRawContent() {
         return rawContent;

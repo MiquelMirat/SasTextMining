@@ -11,6 +11,7 @@ package model;
  * @author miquel.mirat
  */
 public class DataStep extends Step{
+    private String type = "data";
     private String data;
     private String set;
     private String keep;
@@ -87,6 +88,9 @@ public class DataStep extends Step{
     public void setKeep(String keep) {this.keep = keep;}
     public String getDrop() {return drop;}
     public void setDrop(String drop) {this.drop = drop;}
+    public String getType() {return type;}
+    public void setType(String type) {this.type = type;}
+    
 
     @Override
     public String toString() {

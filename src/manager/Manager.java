@@ -18,10 +18,21 @@ import model.Step;
 public class Manager {
     
     ArrayList<Step> steps = new ArrayList<>();
+    FileManager fm;
+    String content;
     
     public Manager(){
-        
+        this.fm = new FileManager();
+        this.content = "";
     }
+    
+    public void read(String filename){
+        this.content = fm.readFile(filename);
+    }
+    
+    
+    
+    
     public String chooseContentForStep(Step s){
         String content = "";
         if(s instanceof ProcStep){
@@ -29,6 +40,10 @@ public class Manager {
                 content = ((ProcStep) s).getSelect().substring(6).trim();
             }else{
                 content = ((ProcStep) s).getKeep().trim();
+                if(content.contains("@")){
+                    //ELIMINAMOS LOS @                      LOS PARENTESIS                             EL PREFIJO KEEP        
+                    content = content.replaceAll("@", "\n").replaceAll("\\(", "").replaceAll("\\)", "").substring(5);
+                }
             }
         }else{
             content = ((DataStep) s).getKeep().trim();
@@ -37,10 +52,10 @@ public class Manager {
     }
     
     
-    public ArrayList<Step> calcSteps(String rawContent){
+    public void /* ArrayList<Step> */calcSteps(){
         boolean inStep = false;
         ArrayList<Step> steps = new ArrayList<>();
-        String[] words = rawContent.split(" ");
+        String[] words = this.content.split(" ");
         
         Step temp = null;
         
@@ -62,7 +77,13 @@ public class Manager {
             }
         }
         this.steps = steps;
-        return steps;
+        //return steps;
     }
+
+    public ArrayList<Step> getSteps() {return steps;}
+    public void setSteps(ArrayList<Step> steps) {this.steps = steps;}
+    public String getContent() {return content;}
+    public void setContent(String content) {this.content = content;}
+    
     
 }

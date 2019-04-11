@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package sastextmining;
 
 import java.util.ArrayList;
@@ -20,70 +19,60 @@ import model.Table;
  * @author miquel.mirat
  */
 public class SasTextMining {
+
     static FileManager fm = new FileManager();
     static Manager mng = new Manager();
     static ArrayList<Step> steps = null;
-    
+
     public static void main(String[] args) {
         //recojemos el fichero
-        String content = fm.readFile(); //System.out.println(content);
+        mng.read("output.txt");
+        mng.calcSteps();
 
-        //dividimos el fichero en steps
-        steps = mng.calcSteps(content);
-        //System.out.println(steps.size());
-        for (Step s: steps){
+        for (Step s : mng.getSteps()) {
             s.archiveComments();
             s.divideStatements();
             s.calcOutputTables();
             s.calcInputTables();
-            for(Table t: s.getOut_tables()){
+            for (Table t : s.getOut_tables()) {
                 t.calcColumns(s);
                 //NOTA-- en los bloques transpose, las columnas son nulas siempre...
                 //FALTA ADECUARDLO A LOS CASE WHEN
-                //FALTA ADECUARLO A LOS KEEP
-                
+
             }
-            
-            
-            
+            s.calcSortings();
         }
-        for(Step s: steps){
-            System.out.println("--------------STEEEEEEEEEEEEEEEEEEEEEEP--------");
-            System.out.println("\n\nTABLAS DE SALIDA");
-            for(Table t : s.getOut_tables()){
-                //System.out.println(t.toString()+"\n");
-                System.out.println("TABLA SALIDAAA");
-                for(Column c : t.getColumnas()){
-                    System.out.println(c.toString());
+        for (Step s : mng.getSteps()) {
+            System.out.println("\n--------------STEEEEEEEEEEEEEEEEEEEEEEP--------");
+            System.out.println("\nTABLAS DE SALIDA");
+            for (Table t : s.getOut_tables()) {
+                //System.out.print("\t");
+                System.out.println("\t" + t.toString() + "\nCOLUMNAS");
+                for (Column c : t.getColumnas()) {
+                    System.out.println("\t" + c.toString());
                 }
             }
-//            System.out.println("\nTABLAS DE ENTRADA");
-//            for(Table t : s.getIn_tables()){
-//                System.out.println(t.toString()+"\n");
-//            }
-//            if(s instanceof ProcStep){
-//                if(((ProcStep) s).getType().equalsIgnoreCase("sort") || ((ProcStep) s).getType().equalsIgnoreCase("transpose")){
-//                    System.out.println(s.toString());
-//                }
-//            }
-//            if(s instanceof DataStep){
-//                //System.out.println("STEP " +s.getClass().getName());
-//                for(Table t: s.getOut_tables()){
-//                    System.out.println(t.toString());
-//                }
-//            }
+            System.out.println("\nORIGENES");
+            for (Table t : s.getIn_tables()) {
+                System.out.println("\t" + t.toString());
+            }
+            System.out.println("\nORDENACIONES");
+            
+
         }
-        
 
         //archivamos los comnetarios de los steps
-        
         //calculamos el contenido de los steps
 //        String test = "hello   extra    spaces";
 //        System.out.println(test);
 //        test = test.replaceAll("\\s+"," ");
 //        System.out.println(test);
-        
-        
+        /*
+         String s1 = "WWWWWWW\tWWWWWWW";
+         String s2 = "iiiiiii\tWWWWWWW";
+         System.out.println(s1);
+         System.out.println(s2);
+         */
     }
-    
+
 }

@@ -194,20 +194,16 @@ public class ProcStep extends Step{
                                 }
                             }
                         }else{
-                            //System.out.println("no cabe"+ temp.getName());
                             if(i+1 < words.length - 1){
                                 if(words[i+2].equalsIgnoreCase(";")){
-                                    //System.out.println("sin alias, por defecto el nombre de la tabla");
                                     temp.setAlias(words[i+1]);
                                 }else{
                                     temp.setAlias(words[i+2]);
                                 }
                             }else{
-                                //System.out.println("sin alias, por defecto el nombre de la tabla");
                                 temp.setAlias(words[i+1]);
                             }
                         }
-                        //System.out.println("ALIAS: "+ temp.getAlias() + "   NAME: " +temp.getName());
                     }
                 }
                 this.getIn_tables().add(temp);
@@ -219,6 +215,7 @@ public class ProcStep extends Step{
                 content = this.getData().substring(5);
                 for(String table: content.split(" ")){
                     temp = new Table(table).withSchema();
+                    temp.setAlias("");
                     //System.out.println(temp.getEsquema());
                     this.getIn_tables().add(temp); 
                 }
