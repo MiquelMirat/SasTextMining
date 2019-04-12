@@ -14,7 +14,8 @@ import manager.Manager;
  * @author miquel.mirat
  */
 public class Table {
-
+    private final String BLUE = "\u001B[34m";
+    private final String NONE = "\u001B[0m";
     private String name;
     private String esquema;
     private String alias;
@@ -38,7 +39,7 @@ public class Table {
     public Table(String fullName) {
         this.name = fullName;
         this.esquema = "";
-        this.alias = "";
+        this.alias = "undefined";
         this.columnas = new ArrayList<>();
     }
 
@@ -81,7 +82,7 @@ public class Table {
         content = tempContent;
         try {
             if (tempContent.equalsIgnoreCase("")) {
-                throw new EmptyStatementException("EMPTY STATEMENT EXCEPTION");
+                throw new EmptyStatementException("NO COLUMNS EXCEPTION");
             }
             String[] lines = content.split("\n");
             String w1, w2, w3;
@@ -98,16 +99,18 @@ public class Table {
                         break;
                     case 2:
                         //System.out.println("TWO WORD--->"+l);
+                        
                         w1 = l.split(" ")[0];
                         w2 = l.split(" ")[1];
                         temp = new Column(w2).full(w1);
+                        
                         break;
                     case 3:
                         //System.out.println("THREE WORD--->"+l);
                         l = l.trim();
                         w1 = l.split(" ")[0];
                         w3 = l.split(" ")[2];
-                        temp = new Column(w3).full(w1);
+                           temp = new Column(w3).full(w1);
                         break;
                     case 4:
                         temp = new Column("default", "default", "default");
@@ -156,51 +159,29 @@ public class Table {
             }
             
         } catch (EmptyStatementException e) {
-            System.out.println(e.getMessage()+" IN STEP WITH OUTPUT TABLE:" + s.getOut_tables().get(0).getName() );
+            
+            //System.out.println(e.getMessage()+" IN STEP WITH OUTPUT TABLE:" + s.getOut_tables().get(0).getName() );
         }
 
         //String content = s instanceof ProcStep ? ((ProcStep) s).getType().equalsIgnoreCase("sql") ? ((ProcStep) s).getSelect() : ((ProcStep) s).getKeep() : ((DataStep) s).getKeep() ;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEsquema() {
-        return esquema;
-    }
-
-    public void setEsquema(String esquema) {
-        this.esquema = esquema;
-    }
-
-    public String getAlias() {
-        return alias;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
-    }
-
-    public ArrayList<Column> getColumnas() {
-        return columnas;
-    }
-
-    public void setColumnas(ArrayList<Column> columnas) {
-        this.columnas = columnas;
-    }
+    public String getName() {return name;}
+    public void setName(String name) {this.name = name;}
+    public String getEsquema() {return esquema;}
+    public void setEsquema(String esquema) {this.esquema = esquema;}
+    public String getAlias() {return alias;}
+    public void setAlias(String alias) {this.alias = alias;}
+    public ArrayList<Column> getColumnas() {return columnas;}
+    public void setColumnas(ArrayList<Column> columnas) {this.columnas = columnas;}
 
     @Override
     public String toString() {
         //return "name=" + name + ", esquema=" + esquema + ", alias=" + alias + ", columnas=" + columnas.size();
-        return "NAME: "+Manager.withRightPadding(name)
-              +"ESQUEMA: "+Manager.withRightPadding(esquema)
-              +"ALIAS: "+Manager.withRightPadding(alias)
-              +"N. COLUMNAS: "+Manager.withRightPadding(String.valueOf(columnas.size()));
+        return BLUE +"NAME: "+ NONE +Manager.withRightPadding(name)
+              +BLUE +"ESQUEMA: "+ NONE +Manager.withRightPadding(esquema)
+              +BLUE +"ALIAS: "+ NONE +Manager.withRightPadding(alias)
+              +BLUE +"N. COLUMNAS: "+ NONE +Manager.withRightPadding(String.valueOf(columnas.size()));
     }
 
 }

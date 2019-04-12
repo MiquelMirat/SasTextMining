@@ -13,33 +13,29 @@ import java.util.ArrayList;
  * @author miquel.mirat
  */
 abstract public class Step {
+    private final String RED = "\u001B[31m";
+    private final String BOLD = "\u001b[4m";
+    private final String NONE = "\u001b[0m";
     private String rawContent;
     private String type;
-    private ArrayList<Comment> comments;
-    private ArrayList<Column> columns;
-    private ArrayList<Table> out_tables;
-    private ArrayList<Table> in_tables;
-    private ArrayList<String> sorted_by;
-    private ArrayList<String> filters;
+    private ArrayList<Comment> comments = new ArrayList<>();
+    private ArrayList<Column> columns = new ArrayList<>();
+    private ArrayList<Table> out_tables = new ArrayList<>();
+    private ArrayList<Table> in_tables = new ArrayList<>();
+    private ArrayList<String> sorted_by = new ArrayList<>();
+    private ArrayList<String> filters = new ArrayList<>();
+    private ArrayList<String> groupings = new ArrayList<>();
     
     
     public Step(){
         this.rawContent = "";
         this.type = "";
-        this.comments = new ArrayList<>();
-        this.columns = new ArrayList<>();
-        this.out_tables = new ArrayList<>();
-        this.in_tables = new ArrayList<>();
-        this.filters = new ArrayList<>();
+        
     }
     public Step(String type){
         this.rawContent = "";
         this.type = type;
-        this.comments = new ArrayList<>();
-        this.columns = new ArrayList<>();
-        this.out_tables = new ArrayList<>();
-        this.in_tables = new ArrayList<>();
-        this.filters = new ArrayList<>();
+        
     }
     
     public void archiveComments(){
@@ -75,6 +71,40 @@ abstract public class Step {
         }*/
         
     }
+    public void printStep() {
+        System.out.print(NONE + "--------------------------------------------------------");
+        System.out.print(NONE + "\n" + BOLD + "--------------STEP--" + this.getType() + "--");
+        System.out.print(this instanceof ProcStep ? ((ProcStep) this).getProcType() : "");
+        System.out.println("---------------------------");
+        System.out.println("--------------------------------------------------------");
+        System.out.println("\n" + RED + "TABLAS DE SALIDA");
+        for (Table t : this.getOut_tables()) {
+            //System.out.print("\t");
+            System.out.println("\t" + t.toString());
+            System.out.println("\n" + RED + "  COLUMNAS");
+            for (Column c : t.getColumnas()) {
+                System.out.println("\t" + c.toString());
+            }
+        }
+        System.out.println("\n" + RED + "ORIGENES");
+        for (Table t : this.getIn_tables()) {
+            System.out.println("\t" + t.toString());
+        }
+        System.out.println("\n" + RED + "FILTROS");
+        for (String f : this.getFilters()) {
+            System.out.println("\t" + f);
+        }
+        System.out.println("\n" + RED + "AGRUPACIONES (en orden de importancia)");
+        for (String g : this.getGroupings()) {
+            System.out.println("\t" + g);
+        }
+
+        System.out.println("\n" + RED + "ORDENACIONES (en orden de importancia)");
+        for (String o : this.getSorted_by()) {
+            System.out.println("\t" + o);
+        }
+    }
+    
     
     //metodos comunes
     public void divideStatements(){}
@@ -82,6 +112,7 @@ abstract public class Step {
     public void calcInputTables(){}
     public void calcSortings(){}
     public void calcFilters(){}
+    public void calcGroupings(){}
     
     //getter y setters comunes
     public String getRawContent() {return rawContent;}
@@ -100,4 +131,7 @@ abstract public class Step {
     public void setSorted_by(ArrayList<String> sorted_by) {this.sorted_by = sorted_by;}
     public ArrayList<String> getFilters() {return filters;}
     public void setFilters(ArrayList<String> filters) {this.filters = filters;}
+    public ArrayList<String> getGroupings() {return groupings;}
+    public void setGroupings(ArrayList<String> groupings) {this.groupings = groupings;}
+    
 }

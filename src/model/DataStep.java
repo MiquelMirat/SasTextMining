@@ -65,6 +65,7 @@ public class DataStep extends Step{
             String[] tablas = this.getData().substring(5).split(" ");
             for (String t: tablas){
                 temp = new Table(t).withSchema();
+                temp.setAlias("undefined");
                 this.getOut_tables().add(temp); 
             }
         }

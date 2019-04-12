@@ -26,7 +26,8 @@ public class SasTextMining {
 
     public static void main(String[] args) {
         //recojemos el fichero
-        mng.read("output.txt");
+        mng.read("text.sas");
+        mng.prepareInput();
         mng.calcSteps();
 
         for (Step s : mng.getSteps()) {
@@ -41,33 +42,12 @@ public class SasTextMining {
 
             }
             s.calcFilters();
+            s.calcGroupings();
             s.calcSortings();
             
         }
         for (Step s : mng.getSteps()) {
-            System.out.println("\n--------------STEP " + s.getType() + "------------------");
-            System.out.println("\nTABLAS DE SALIDA");
-            for (Table t : s.getOut_tables()) {
-                //System.out.print("\t");
-                System.out.println("\t" + t.toString() + "\n  COLUMNAS");
-                for (Column c : t.getColumnas()) {
-                    System.out.println("\t" + c.toString());
-                }
-            }
-            System.out.println("\nORIGENES");
-            for (Table t : s.getIn_tables()) {
-                System.out.println("\t" + t.toString());
-            }
-            System.out.println("\nFILTROS");
-            for (String f: s.getFilters()){
-                System.out.println("\t" + f);
-            }
-            
-            System.out.println("\nORDENACIONES (en orden de importancia)");
-            for(String o: s.getSorted_by()){
-                System.out.println("\t" + o);
-            }
-
+            s.printStep();
         }
 
         //archivamos los comnetarios de los steps

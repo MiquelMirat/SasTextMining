@@ -192,6 +192,7 @@ public class ProcStep extends Step{
                 //System.out.println("LENGHT FROM:" + words.length+ "TEXT FROM: "+ this.getFrom());
                 for(int i = 0; i<words.length; i++){
                     if(words[i].equalsIgnoreCase("from") || words[i].equalsIgnoreCase("join")){
+                        //System.out.println(words[i]);
                         temp = new Table(words[i+1]).withSchema();
                         if(i+2 < words.length-1){
                             if(words[i+2].equalsIgnoreCase("as")){
@@ -215,9 +216,11 @@ public class ProcStep extends Step{
                                 temp.setAlias(words[i+1]);
                             }
                         }
+                        this.getIn_tables().add(temp);
                     }
+                    //this.getIn_tables().add(temp);
                 }
-                this.getIn_tables().add(temp);
+                
                 break;
             case "SORT":
             case "TRANSPOSE":
@@ -226,7 +229,7 @@ public class ProcStep extends Step{
                 content = this.getData().substring(5);
                 for(String table: content.split(" ")){
                     temp = new Table(table).withSchema();
-                    temp.setAlias("");
+                    temp.setAlias("undefined");
                     //System.out.println(temp.getEsquema());
                     this.getIn_tables().add(temp); 
                 }
@@ -291,16 +294,35 @@ public class ProcStep extends Step{
         if (this.getProcType().equalsIgnoreCase("sql")) {
             String content = this.getWhere();
             if (!content.equals("")) {
-                for (String w : content.substring(3).split(" ")) {
-                    w = w.replace(";", "");
-                    //System.out.println(w);
-                    temp.add(w);
+                content = content.substring(6);
+                content = content.replace(";","");
+                for(String f: content.split("or")){
+                    temp.add(f);
                 }
             } else {
                 temp.add("NO FILTERS");
             }
         }
+        this.setFilters(temp);
     }
+
+    @Override
+    public void calcGroupings() {
+        ArrayList<String> temp = new ArrayList<>();
+        String content = this.getGroup();
+        if(content.equals("")){
+            temp.add("NO GROUPINGS");
+            
+        }else{
+            //System.out.println(content);
+            for(String g: content.substring(9).split(",")){
+                temp.add(g.trim());
+            }
+        }
+        this.setGroupings(temp);
+    }
+    
+    
     
     
     

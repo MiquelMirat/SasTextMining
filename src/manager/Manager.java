@@ -29,6 +29,35 @@ public class Manager {
     public void read(String filename){
         this.content = fm.readFile(filename);
     }
+    public void prepareInput(){
+        String temp = this.content;
+        //System.out.println("FIRST:"+ temp);
+        temp = temp.replace("\n"," ")
+                   .replace("\r","")
+                   .replace("\t","")
+                   .replace(" =", "=")
+                   .replace("= ", "=")
+                   .replace(";"," ;")
+                   .replace(";","; ")
+                   .replace("*/","*/ ")
+                   .replace("SELECT", "SELECT ")
+                   .replaceAll("\\s+", " ");
+        
+        //System.out.println("SEC :"+ temp);
+        String formatted = "";
+        int count = 0;
+        for(char c: temp.toCharArray()){
+            if(c == '('){count++;}
+            if(c == ')'){count--;}
+            if(count < 0){count = 0;}
+            if(count != 0){//DENTRO DE PARENTESIS
+                c = c == ' ' ? '@' : c;//si es un espacio se pone un @
+            }
+            formatted += c;
+        }
+        this.content = formatted;
+        //System.out.println("THIRD:"+ this.content);
+    }
     
     
     
@@ -37,6 +66,7 @@ public class Manager {
         String content = "";
         if(s instanceof ProcStep){
             if(((ProcStep) s).getProcType().equalsIgnoreCase("sql")){
+                //System.out.println("SELECT?:"+((ProcStep) s).getSelect().trim());
                 content = ((ProcStep) s).getSelect().substring(6).trim();
             }else{
                 content = ((ProcStep) s).getKeep().trim();
@@ -56,11 +86,12 @@ public class Manager {
         boolean inStep = false;
         ArrayList<Step> steps = new ArrayList<>();
         String[] words = this.content.split(" ");
-        
+        System.out.println(words.length);
         Step temp = null;
         
         for (String w: words){
             if(w.equalsIgnoreCase("proc")){
+                //System.out.println("proooc");
                 temp = new ProcStep("PROC");
                 inStep = true;
             }
@@ -77,6 +108,7 @@ public class Manager {
             }
         }
         this.steps = steps;
+        System.out.println(this.steps.size());
         //return steps;
     }
 
