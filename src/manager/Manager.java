@@ -29,6 +29,9 @@ public class Manager {
     public void read(String filename){
         this.content = fm.readFile(filename);
     }
+    public void writeCSV(){
+        fm.writeCSV(this.steps);
+    }
     public void prepareInput(){
         String temp = this.content;
         //System.out.println("FIRST:"+ temp);

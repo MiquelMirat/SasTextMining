@@ -44,11 +44,18 @@ public class SasTextMining {
             s.calcFilters();
             s.calcGroupings();
             s.calcSortings();
+            s.fillArrays();
             
         }
-        for (Step s : mng.getSteps()) {
-            s.printStep();
-        }
+//        for (Step s : mng.getSteps()) {
+//            s.printStep();
+//        }
+        mng.writeCSV();
+        
+        //estaba haciendo el metodo fill arrays en Step, para hacer que las arrays de filtros orders i groups sean del mismo 
+        //tmaaño para escribirlo en el csv
+        
+        
 
         //archivamos los comnetarios de los steps
         //calculamos el contenido de los steps

@@ -71,11 +71,49 @@ abstract public class Step {
         }*/
         
     }
+    public void fillArrays(){
+        int filters = this.getFilters().size();
+        int sorts = this.getSorted_by().size();
+        int groups = this.getGroupings().size();
+        int biggest = 0;
+        if(filters>=sorts && filters>=groups){
+            biggest = filters;
+        }
+        if(sorts>=filters && sorts>=groups){
+            biggest = sorts;
+        }
+        if(groups>=filters && groups>=sorts){
+            biggest = groups;
+        }
+        //System.out.println(biggest);
+        for(int i = 0; i<biggest; i++){
+            if(this.getFilters().size()<=i){
+                this.getFilters().add("void");
+            }
+            if(this.getSorted_by().size()<=i){
+                this.getSorted_by().add("void");
+            }
+            if(this.getGroupings().size()<=i){
+                this.getGroupings().add("void");
+            }
+            
+        }
+        /*System.out.println("ARRAYS FILLED---SIZES:\n"
+                + "filters: "+  this.getFilters().size()
+                + "\ngroups: "+  this.getGroupings().size()
+                + "\nsorts: "+  this.getSorted_by().size());*/
+        
+        ///por aquii
+        //for()
+       
+        
+    }
+    
     public void printStep() {
         System.out.print(NONE + "--------------------------------------------------------");
-        System.out.print(NONE + "\n" + BOLD + "--------------STEP--" + this.getType() + "--");
+        System.out.print(NONE + "\n" + BOLD + "-----------------STEP--" + this.getType() + "--");
         System.out.print(this instanceof ProcStep ? ((ProcStep) this).getProcType() : "");
-        System.out.println("---------------------------");
+        System.out.println("------------------------");
         System.out.println("--------------------------------------------------------");
         System.out.println("\n" + RED + "TABLAS DE SALIDA");
         for (Table t : this.getOut_tables()) {
