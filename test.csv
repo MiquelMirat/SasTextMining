@@ -1,5 +1,5 @@
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 tipos_cambio;WORK;undefined;2
@@ -16,7 +16,7 @@ canvi_oficial;oraggcom;AUXILIAR;
 ;FILTROS;GROUPS;ORDERS
 ;data_cre='31dec2018:0:0:0'dt and DIVISA='GBP' ;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 TEST_3281;WORK;undefined;4
@@ -33,11 +33,11 @@ NAME;ESQUEMA;ALIAS;
 PLANTILLA_3281;bsco_4;undefined;
 ;;;
 ;FILTROS;GROUPS;ORDERS
-;void;NO GROUPINGS;TEMPLATE
-;void;void;DATA_EXTRA
-;void;void;ROW
+;;NO GROUPINGS;TEMPLATE
+;;;DATA_EXTRA
+;;;ROW
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 TEST2_3281;WORK;undefined;5
@@ -57,7 +57,7 @@ TEST_3281;WORK;AUXILIAR;
 ;FILTROS;GROUPS;ORDERS
 ;NO FILTERS;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 ;;;
@@ -66,9 +66,9 @@ NAME;ESQUEMA;ALIAS;
 TEST2_3281;WORK;undefined;
 ;;;
 ;FILTROS;GROUPS;ORDERS
-;void;NO GROUPINGS;NO SORTINGS
+;;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 CAMBIO_MILES;WORK;undefined;6
@@ -90,7 +90,7 @@ TIPOS_CAMBIO;WORK;AUXILIAR2;
 ;FILTROS;GROUPS;ORDERS
 ;NO FILTERS;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 CAMBIO_3281;WORK;undefined;6
@@ -111,7 +111,7 @@ CAMBIO_MILES;WORK;AUXILIAR;
 ;FILTROS;GROUPS;ORDERS
 ;AUXILIAR.IMPORTE NOT=0 ;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 TABLA_3281_TSB;WORK;undefined;5
@@ -131,7 +131,7 @@ CAMBIO_3281;WORK;t1;
 ;FILTROS;GROUPS;ORDERS
 ;NO FILTERS;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 TABLA_3281_VUELTA_TSB;WORK;undefined;5
@@ -151,7 +151,7 @@ TABLA_3281_TSB;WORK;t1;
 ;FILTROS;GROUPS;ORDERS
 ;NO FILTERS;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 TEST1_TABLA3281_VUELTA_TSB;WORK;undefined;4
@@ -168,11 +168,11 @@ NAME;ESQUEMA;ALIAS;
 TABLA_3281_VUELTA_TSB;WORK;undefined;
 ;;;
 ;FILTROS;GROUPS;ORDERS
-;void;NO GROUPINGS;TEMPLATE
-;void;void;DATA_EXTRA
-;void;void;ROW
+;;NO GROUPINGS;TEMPLATE
+;;;DATA_EXTRA
+;;;ROW
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 TEST2_TABLA3281_VUELTA_TSB;WORK;undefined;0
@@ -182,16 +182,16 @@ NAME;ESQUEMA;ALIAS;
 TEST1_TABLA3281_VUELTA_TSB;WORK;undefined;
 ;;;
 ;FILTROS;GROUPS;ORDERS
-;void;NO GROUPINGS;NO SORTINGS
+;;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 ECO1;WORK;undefined;2
 ;;;
 COLUMNAS;;;
 NAME;ALIAS;ALIAS ORIGEN;TABLA ORIGEN
-(case@when@SUBSTR@(F1,1,4)='3207'@then@'3207'@when@SUBSTR@(F1,1,4)='3281'@then@'3281'@when@SUBSTR@(F1,1,4)='3282'@then@'3282'@when@SUBSTR@(F1,1,4)='3291'@then@'3291'@when@SUBSTR@(F1,1,4)='3292'@then@'3292'@when@SUBSTR@(F1,1,4)='3294'@then@'3294'@else@'ERRO'@end);'COREP'n;undefined;ECO_CP_CONS
+when SUBSTR F1,1,4='3207' then '3207' when SUBSTR F1,1,4='3281' then '3281' when SUBSTR F1,1,4='3282' then '3282' when SUBSTR F1,1,4='3291' then '3291' when SUBSTR F1,1,4='3292' then '3292' when SUBSTR F1,1,4='3294' then '3294' else 'ERRO' end;'COREP'n;undefined;ECO_CP_CONS
 F1;t1.F1;t1;ECO_CP_CONS
 ;;;
 ORIGENES;;;
@@ -201,7 +201,7 @@ ECO_CP_CONS;bsco_4;t1;
 ;FILTROS;GROUPS;ORDERS
 ;NO FILTERS;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 ECO2;WORK;undefined;8
@@ -210,12 +210,129 @@ COLUMNAS;;;
 NAME;ALIAS;ALIAS ORIGEN;TABLA ORIGEN
 COREP;t1.COREP;t1;ECO1
 F1;t1.F1;t1;ECO1
-default;default;default;ECO1
-default;default;default;ECO1
-input(case@when@COREP='3207'@then@TRANWRD(SUBSTR@(F1,129,18),",",".")@when@COREP@IN@('3281','3282')@then@TRANWRD(SUBSTR(F1,129,18),",",".")@when@COREP@IN@('3291','3292','3294')@then@TRANWRD(SUBSTR@(F1,129,18),",",".")@else@''@end,BEST18.)*(case@when@SUBSTR@(F1,147,1)='-'@then@-1@else@1@end);IMPORTE;undefined;ECO1
-(case@when@SUBSTR@(F1,147,1)='-'@then@-1@else@1@end);SIGNO;undefined;ECO1
-default;default;default;ECO1
-(case@when@COREP@IN@('3282')@then@input(SUBSTR@(F1,45,4),comma32.)@else@0@end);TRAMO_PD;undefined;ECO1
+
+when
+COREP='3207'
+then
+SUBSTR
+F1,5,4
+when
+COREP
+IN
+'3281','3282'
+then
+SUBSTR
+F1,5,3
+when
+COREP
+IN
+'3291','3292','3294'
+then
+SUBSTR
+F1,5,2
+else
+''
+end FORMAT=$CHAR4. ;CATEGO;undefined;ECO1
+
+COREP='3207'
+then
+SUBSTR
+F1,5,4
+when
+COREP
+IN
+'3281','3282'
+then
+SUBSTR
+F1,5,3
+when
+COREP
+IN
+'3291','3292','3294'
+then
+SUBSTR
+F1,5,2
+else
+''
+end FORMAT=$CHAR4.  case
+when
+COREP='3207'
+then
+SUBSTR
+F1,125,4
+when
+COREP
+IN
+'3281'
+then
+SUBSTR
+F1,125,4
+when
+COREP
+IN
+'3291','3292','3294'
+then
+SUBSTR
+F1,125,4
+else
+''
+end FORMAT=$CHAR4. ;CELDA;undefined;ECO1
+case when COREP='3207' then TRANWRDSUBSTR F1,129,18,",","." when COREP IN '3281','3282' then TRANWRDSUBSTRF1,129,18,",","." when COREP IN '3291','3292','3294' then TRANWRDSUBSTR F1,129,18,",","." else '' end,BEST18.*case when SUBSTR F1,147,1='-' then -1 else 1 end;IMPORTE;undefined;ECO1
+when SUBSTR F1,147,1='-' then -1 else 1 end;SIGNO;undefined;ECO1
+P='3207'
+then
+SUBSTR
+F1,5,4
+when
+COREP
+IN
+'3281','3282'
+then
+SUBSTR
+F1,5,3
+when
+COREP
+IN
+'3291','3292','3294'
+then
+SUBSTR
+F1,5,2
+else
+''
+end FORMAT=$CHAR4.  case
+when
+COREP='3207'
+then
+SUBSTR
+F1,125,4
+when
+COREP
+IN
+'3281'
+then
+SUBSTR
+F1,125,4
+when
+COREP
+IN
+'3291','3292','3294'
+then
+SUBSTR
+F1,125,4
+else
+''
+end FORMAT=$CHAR4.  case
+when
+COREP
+IN
+'3282'
+then
+'C'||SUBSTR
+F1,126,3
+else
+''
+end FORMAT=$CHAR12. ;COL;undefined;ECO1
+when COREP IN '3282' then inputSUBSTR F1,45,4,comma32. else 0 end;TRAMO_PD;undefined;ECO1
 ;;;
 ORIGENES;;;
 NAME;ESQUEMA;ALIAS;
@@ -224,7 +341,7 @@ ECO1;WORK;t1;
 ;FILTROS;GROUPS;ORDERS
 ;NO FILTERS;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 COR3281_1;WORK;undefined;7
@@ -246,7 +363,7 @@ ECO2;WORK;t1;
 ;FILTROS;GROUPS;ORDERS
 ;t1.COREP='3281' ;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 COR3281_2;WORK;undefined;8
@@ -269,10 +386,10 @@ MAESTRO_CELDAS_COREP;BSCO;t2;
 ;;;
 ;FILTROS;GROUPS;ORDERS
 ;NO FILTERS;NO GROUPINGS;t1.CATEGO,
-;void;void;t2.COL,
-;void;void;t2.ROW
+;;;t2.COL,
+;;;t2.ROW
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 COR3281_3;WORK;undefined;8
@@ -295,7 +412,7 @@ COR3281_2;WORK;t1;
 ;FILTROS;GROUPS;ORDERS
 ;t1.COREP='3281' AND t1.COL IN ('C110') ;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 COR3281_4;WORK;undefined;8
@@ -318,7 +435,7 @@ COR3281_2;WORK;t1;
 ;FILTROS;GROUPS;ORDERS
 ;t1.COREP='3281' AND t1.COL IN ('C140') ;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 CRUCE3281_1;WORK;undefined;9
@@ -343,7 +460,7 @@ COR3281_3;WORK;t2;
 ;FILTROS;GROUPS;ORDERS
 ;NO FILTERS;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 CRUCE3281_2;WORK;undefined;10
@@ -369,7 +486,7 @@ COR3281_4;WORK;t2;
 ;FILTROS;GROUPS;ORDERS
 ;NO FILTERS;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 CRUCE3281_2_5;WORK;undefined;10
@@ -385,7 +502,7 @@ COREP_2;t1.COREP_2;t1;CRUCE3281_2
 ROW;t1.ROW;t1;CRUCE3281_2
 COL;t1.COL;t1;CRUCE3281_2
  case when t1.EAD=. then 0 else t1.EAD end ;EAD;undefined;CRUCE3281_2
- case when t1.EAD_EEFF=. then 0 else t1.EAD_EEFF end ;EAD_EEFF;undefined;CRUCE3281_2
+ case when t1.EAD=. then 0 else t1.EAD end  case when t1.EAD_EEFF=. then 0 else t1.EAD_EEFF end ;EAD_EEFF;undefined;CRUCE3281_2
 ;;;
 ORIGENES;;;
 NAME;ESQUEMA;ALIAS;
@@ -394,7 +511,7 @@ CRUCE3281_2;WORK;t1;
 ;FILTROS;GROUPS;ORDERS
 ;NO FILTERS;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 CRUCE3281_3;WORK;undefined;14
@@ -412,9 +529,9 @@ COL;t1.COL;t1;CRUCE3281_2_5
 EAD;t1.EAD;t1;CRUCE3281_2_5
 EAD_EEFF;t1.EAD_EEFF;t1;CRUCE3281_2_5
 case when COL='C010' then IMPORTE*EAD/10000 else 0 end ;C_PDxEAD;undefined;CRUCE3281_2_5
-case when COL='C230' then IMPORTE*(EAD-EAD_EEFF)/100 else 0 end ;C_LGDxEAD;undefined;CRUCE3281_2_5
-case when COL='C240' then IMPORTE*EAD_EEFF/100 else 0 end ;C_LGDEFxEAD;undefined;CRUCE3281_2_5
-case when COL='C250' then IMPORTE*EAD else 0 end ;C_MxEAD;undefined;CRUCE3281_2_5
+case when COL='C010' then IMPORTE*EAD/10000 else 0 end case when COL='C230' then IMPORTE*(EAD-EAD_EEFF)/100 else 0 end ;C_LGDxEAD;undefined;CRUCE3281_2_5
+case when COL='C010' then IMPORTE*EAD/10000 else 0 end case when COL='C230' then IMPORTE*(EAD-EAD_EEFF)/100 else 0 end case when COL='C240' then IMPORTE*EAD_EEFF/100 else 0 end ;C_LGDEFxEAD;undefined;CRUCE3281_2_5
+case when COL='C010' then IMPORTE*EAD/10000 else 0 end case when COL='C230' then IMPORTE*(EAD-EAD_EEFF)/100 else 0 end case when COL='C240' then IMPORTE*EAD_EEFF/100 else 0 end case when COL='C250' then IMPORTE*EAD else 0 end ;C_MxEAD;undefined;CRUCE3281_2_5
 ;;;
 ORIGENES;;;
 NAME;ESQUEMA;ALIAS;
@@ -423,7 +540,7 @@ CRUCE3281_2_5;WORK;t1;
 ;FILTROS;GROUPS;ORDERS
 ;NO FILTERS;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 PDxEAD_3281;WORK;undefined;8
@@ -446,7 +563,7 @@ CRUCE3281_3;WORK;t1;
 ;FILTROS;GROUPS;ORDERS
 ;C_PDxEAD NOT=0 ;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 LGDxEAD_3281;WORK;undefined;8
@@ -469,7 +586,7 @@ CRUCE3281_3;WORK;t1;
 ;FILTROS;GROUPS;ORDERS
 ;C_LGDxEAD NOT=0 ;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 LGDEFxEAD_3281;WORK;undefined;8
@@ -492,7 +609,7 @@ CRUCE3281_3;WORK;t1;
 ;FILTROS;GROUPS;ORDERS
 ;C_LGDEFxEAD NOT=0 ;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 MxEAD_3281;WORK;undefined;8
@@ -515,7 +632,7 @@ CRUCE3281_3;WORK;t1;
 ;FILTROS;GROUPS;ORDERS
 ;C_MxEAD NOT=0 ;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;data;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 TABLA_3281_BS;WORK;undefined;0
@@ -530,7 +647,7 @@ MxEAD_3281;WORK;undefined;
 ;;;
 ;FILTROS;GROUPS;ORDERS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 TABLA_3281_VUELTA_BS;WORK;undefined;7
@@ -552,7 +669,7 @@ TABLA_3281_BS;WORK;t1;
 ;FILTROS;GROUPS;ORDERS
 ;NO FILTERS;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 TEST1_TABLA3281_VUELTA_BS;WORK;undefined;6
@@ -571,13 +688,13 @@ NAME;ESQUEMA;ALIAS;
 TABLA_3281_VUELTA_BS;WORK;undefined;
 ;;;
 ;FILTROS;GROUPS;ORDERS
-;void;NO GROUPINGS;TEMPLATE
-;void;void;COREP_2
-;void;void;DATA_EXTRA
-;void;void;ROW
-;void;void;CELDA
+;;NO GROUPINGS;TEMPLATE
+;;;COREP_2
+;;;DATA_EXTRA
+;;;ROW
+;;;CELDA
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 TEST2_TABLA3281_VUELTA_BS;WORK;undefined;0
@@ -587,9 +704,9 @@ NAME;ESQUEMA;ALIAS;
 TEST1_TABLA3281_VUELTA_BS;WORK;undefined;
 ;;;
 ;FILTROS;GROUPS;ORDERS
-;void;NO GROUPINGS;NO SORTINGS
+;;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 CHECK_3281_BS_CONSO;BSCO_4;undefined;32
@@ -635,10 +752,10 @@ TEST2_TABLA3281_VUELTA_BS;WORK;t1;
 ;;;
 ;FILTROS;GROUPS;ORDERS
 ;t1.ROW='R010';t1.template;NO SORTINGS
-;void;t1.data_extra;void
-;void;t1.ROW;void
+;;t1.data_extra;
+;;t1.ROW;
 ;;;
-STEP;;;
+STEP;data;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 TABLA3281_BS_TSB_PRE1;WORK;undefined;0
@@ -650,7 +767,7 @@ TEST2_TABLA3281_VUELTA_TSB;WORK;undefined;
 ;;;
 ;FILTROS;GROUPS;ORDERS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 TABLA3281_BS_TSB_PRE1_5;WORK;undefined;33
@@ -661,31 +778,31 @@ template;sss;t1;TABLA3281_BS_TSB_PRE1
 data_extra;t1.data_extra;t1;TABLA3281_BS_TSB_PRE1
 ROW;t1.ROW;t1;TABLA3281_BS_TSB_PRE1
 case when C010=. then 0 else C010 end ;C010;undefined;TABLA3281_BS_TSB_PRE1
- case when C020=. then 0 else C020 end ;C020;undefined;TABLA3281_BS_TSB_PRE1
-case when C030=. then 0 else C030 end ;C030;undefined;TABLA3281_BS_TSB_PRE1
- case when C040=. then 0 else C040 end ;C040;undefined;TABLA3281_BS_TSB_PRE1
- case when C070=. then 0 else C070 end ;C070;undefined;TABLA3281_BS_TSB_PRE1
- case when C080=. then 0 else C080 end ;C080;undefined;TABLA3281_BS_TSB_PRE1
-case when C090=. then 0 else C090 end ;C090;undefined;TABLA3281_BS_TSB_PRE1
- case when C100=. then 0 else C100 end ;C100;undefined;TABLA3281_BS_TSB_PRE1
- case when C110=. then 0 else C110 end ;C110;undefined;TABLA3281_BS_TSB_PRE1
- case when C120=. then 0 else C120 end ;C120;undefined;TABLA3281_BS_TSB_PRE1
-case when C130=. then 0 else C130 end ;C130;undefined;TABLA3281_BS_TSB_PRE1
-case when C140=. then 0 else C140 end ;C140;undefined;TABLA3281_BS_TSB_PRE1
-case when C150=. then 0 else C150 end ;C150;undefined;TABLA3281_BS_TSB_PRE1
- case when C180=. then 0 else C180 end ;C180;undefined;TABLA3281_BS_TSB_PRE1
- case when C190=. then 0 else C190 end ;C190;undefined;TABLA3281_BS_TSB_PRE1
- case when C200=. then 0 else C200 end ;C200;undefined;TABLA3281_BS_TSB_PRE1
- case when C230=. then 0 else C230 end ;C230;undefined;TABLA3281_BS_TSB_PRE1
- case when C240=. then 0 else C240 end ;C240;undefined;TABLA3281_BS_TSB_PRE1
- case when C250=. then 0 else C250 end ;C250;undefined;TABLA3281_BS_TSB_PRE1
- case when C255=. then 0 else C255 end ;C255;undefined;TABLA3281_BS_TSB_PRE1
-case when C250=. then 0 else C250 end ;C250;undefined;TABLA3281_BS_TSB_PRE1
-case when C260=. then 0 else C260 end ;C260;undefined;TABLA3281_BS_TSB_PRE1
-case when C270=. then 0 else C270 end ;C270;undefined;TABLA3281_BS_TSB_PRE1
-case when C280=. then 0 else C280 end ;C280;undefined;TABLA3281_BS_TSB_PRE1
-case when C290=. then 0 else C290 end ;C290;undefined;TABLA3281_BS_TSB_PRE1
-case when C300=. then 0 else C300 end ;C300;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end ;C020;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end case when C030=. then 0 else C030 end ;C030;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end case when C030=. then 0 else C030 end  case when C040=. then 0 else C040 end ;C040;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end case when C030=. then 0 else C030 end  case when C040=. then 0 else C040 end  case when C070=. then 0 else C070 end ;C070;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end case when C030=. then 0 else C030 end  case when C040=. then 0 else C040 end  case when C070=. then 0 else C070 end  case when C080=. then 0 else C080 end ;C080;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end case when C030=. then 0 else C030 end  case when C040=. then 0 else C040 end  case when C070=. then 0 else C070 end  case when C080=. then 0 else C080 end case when C090=. then 0 else C090 end ;C090;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end case when C030=. then 0 else C030 end  case when C040=. then 0 else C040 end  case when C070=. then 0 else C070 end  case when C080=. then 0 else C080 end case when C090=. then 0 else C090 end  case when C100=. then 0 else C100 end ;C100;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end case when C030=. then 0 else C030 end  case when C040=. then 0 else C040 end  case when C070=. then 0 else C070 end  case when C080=. then 0 else C080 end case when C090=. then 0 else C090 end  case when C100=. then 0 else C100 end  case when C110=. then 0 else C110 end ;C110;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end case when C030=. then 0 else C030 end  case when C040=. then 0 else C040 end  case when C070=. then 0 else C070 end  case when C080=. then 0 else C080 end case when C090=. then 0 else C090 end  case when C100=. then 0 else C100 end  case when C110=. then 0 else C110 end  case when C120=. then 0 else C120 end ;C120;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end case when C030=. then 0 else C030 end  case when C040=. then 0 else C040 end  case when C070=. then 0 else C070 end  case when C080=. then 0 else C080 end case when C090=. then 0 else C090 end  case when C100=. then 0 else C100 end  case when C110=. then 0 else C110 end  case when C120=. then 0 else C120 end case when C130=. then 0 else C130 end ;C130;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end case when C030=. then 0 else C030 end  case when C040=. then 0 else C040 end  case when C070=. then 0 else C070 end  case when C080=. then 0 else C080 end case when C090=. then 0 else C090 end  case when C100=. then 0 else C100 end  case when C110=. then 0 else C110 end  case when C120=. then 0 else C120 end case when C130=. then 0 else C130 end case when C140=. then 0 else C140 end ;C140;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end case when C030=. then 0 else C030 end  case when C040=. then 0 else C040 end  case when C070=. then 0 else C070 end  case when C080=. then 0 else C080 end case when C090=. then 0 else C090 end  case when C100=. then 0 else C100 end  case when C110=. then 0 else C110 end  case when C120=. then 0 else C120 end case when C130=. then 0 else C130 end case when C140=. then 0 else C140 end case when C150=. then 0 else C150 end ;C150;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end case when C030=. then 0 else C030 end  case when C040=. then 0 else C040 end  case when C070=. then 0 else C070 end  case when C080=. then 0 else C080 end case when C090=. then 0 else C090 end  case when C100=. then 0 else C100 end  case when C110=. then 0 else C110 end  case when C120=. then 0 else C120 end case when C130=. then 0 else C130 end case when C140=. then 0 else C140 end case when C150=. then 0 else C150 end  case when C180=. then 0 else C180 end ;C180;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end case when C030=. then 0 else C030 end  case when C040=. then 0 else C040 end  case when C070=. then 0 else C070 end  case when C080=. then 0 else C080 end case when C090=. then 0 else C090 end  case when C100=. then 0 else C100 end  case when C110=. then 0 else C110 end  case when C120=. then 0 else C120 end case when C130=. then 0 else C130 end case when C140=. then 0 else C140 end case when C150=. then 0 else C150 end  case when C180=. then 0 else C180 end  case when C190=. then 0 else C190 end ;C190;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end case when C030=. then 0 else C030 end  case when C040=. then 0 else C040 end  case when C070=. then 0 else C070 end  case when C080=. then 0 else C080 end case when C090=. then 0 else C090 end  case when C100=. then 0 else C100 end  case when C110=. then 0 else C110 end  case when C120=. then 0 else C120 end case when C130=. then 0 else C130 end case when C140=. then 0 else C140 end case when C150=. then 0 else C150 end  case when C180=. then 0 else C180 end  case when C190=. then 0 else C190 end  case when C200=. then 0 else C200 end ;C200;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end case when C030=. then 0 else C030 end  case when C040=. then 0 else C040 end  case when C070=. then 0 else C070 end  case when C080=. then 0 else C080 end case when C090=. then 0 else C090 end  case when C100=. then 0 else C100 end  case when C110=. then 0 else C110 end  case when C120=. then 0 else C120 end case when C130=. then 0 else C130 end case when C140=. then 0 else C140 end case when C150=. then 0 else C150 end  case when C180=. then 0 else C180 end  case when C190=. then 0 else C190 end  case when C200=. then 0 else C200 end  case when C230=. then 0 else C230 end ;C230;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end case when C030=. then 0 else C030 end  case when C040=. then 0 else C040 end  case when C070=. then 0 else C070 end  case when C080=. then 0 else C080 end case when C090=. then 0 else C090 end  case when C100=. then 0 else C100 end  case when C110=. then 0 else C110 end  case when C120=. then 0 else C120 end case when C130=. then 0 else C130 end case when C140=. then 0 else C140 end case when C150=. then 0 else C150 end  case when C180=. then 0 else C180 end  case when C190=. then 0 else C190 end  case when C200=. then 0 else C200 end  case when C230=. then 0 else C230 end  case when C240=. then 0 else C240 end ;C240;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end case when C030=. then 0 else C030 end  case when C040=. then 0 else C040 end  case when C070=. then 0 else C070 end  case when C080=. then 0 else C080 end case when C090=. then 0 else C090 end  case when C100=. then 0 else C100 end  case when C110=. then 0 else C110 end  case when C120=. then 0 else C120 end case when C130=. then 0 else C130 end case when C140=. then 0 else C140 end case when C150=. then 0 else C150 end  case when C180=. then 0 else C180 end  case when C190=. then 0 else C190 end  case when C200=. then 0 else C200 end  case when C230=. then 0 else C230 end  case when C240=. then 0 else C240 end  case when C250=. then 0 else C250 end ;C250;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end case when C030=. then 0 else C030 end  case when C040=. then 0 else C040 end  case when C070=. then 0 else C070 end  case when C080=. then 0 else C080 end case when C090=. then 0 else C090 end  case when C100=. then 0 else C100 end  case when C110=. then 0 else C110 end  case when C120=. then 0 else C120 end case when C130=. then 0 else C130 end case when C140=. then 0 else C140 end case when C150=. then 0 else C150 end  case when C180=. then 0 else C180 end  case when C190=. then 0 else C190 end  case when C200=. then 0 else C200 end  case when C230=. then 0 else C230 end  case when C240=. then 0 else C240 end  case when C250=. then 0 else C250 end  case when C255=. then 0 else C255 end ;C255;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end case when C030=. then 0 else C030 end  case when C040=. then 0 else C040 end  case when C070=. then 0 else C070 end  case when C080=. then 0 else C080 end case when C090=. then 0 else C090 end  case when C100=. then 0 else C100 end  case when C110=. then 0 else C110 end  case when C120=. then 0 else C120 end case when C130=. then 0 else C130 end case when C140=. then 0 else C140 end case when C150=. then 0 else C150 end  case when C180=. then 0 else C180 end  case when C190=. then 0 else C190 end  case when C200=. then 0 else C200 end  case when C230=. then 0 else C230 end  case when C240=. then 0 else C240 end  case when C250=. then 0 else C250 end  case when C255=. then 0 else C255 end case when C250=. then 0 else C250 end ;C250;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end case when C030=. then 0 else C030 end  case when C040=. then 0 else C040 end  case when C070=. then 0 else C070 end  case when C080=. then 0 else C080 end case when C090=. then 0 else C090 end  case when C100=. then 0 else C100 end  case when C110=. then 0 else C110 end  case when C120=. then 0 else C120 end case when C130=. then 0 else C130 end case when C140=. then 0 else C140 end case when C150=. then 0 else C150 end  case when C180=. then 0 else C180 end  case when C190=. then 0 else C190 end  case when C200=. then 0 else C200 end  case when C230=. then 0 else C230 end  case when C240=. then 0 else C240 end  case when C250=. then 0 else C250 end  case when C255=. then 0 else C255 end case when C250=. then 0 else C250 end case when C260=. then 0 else C260 end ;C260;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end case when C030=. then 0 else C030 end  case when C040=. then 0 else C040 end  case when C070=. then 0 else C070 end  case when C080=. then 0 else C080 end case when C090=. then 0 else C090 end  case when C100=. then 0 else C100 end  case when C110=. then 0 else C110 end  case when C120=. then 0 else C120 end case when C130=. then 0 else C130 end case when C140=. then 0 else C140 end case when C150=. then 0 else C150 end  case when C180=. then 0 else C180 end  case when C190=. then 0 else C190 end  case when C200=. then 0 else C200 end  case when C230=. then 0 else C230 end  case when C240=. then 0 else C240 end  case when C250=. then 0 else C250 end  case when C255=. then 0 else C255 end case when C250=. then 0 else C250 end case when C260=. then 0 else C260 end case when C270=. then 0 else C270 end ;C270;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end case when C030=. then 0 else C030 end  case when C040=. then 0 else C040 end  case when C070=. then 0 else C070 end  case when C080=. then 0 else C080 end case when C090=. then 0 else C090 end  case when C100=. then 0 else C100 end  case when C110=. then 0 else C110 end  case when C120=. then 0 else C120 end case when C130=. then 0 else C130 end case when C140=. then 0 else C140 end case when C150=. then 0 else C150 end  case when C180=. then 0 else C180 end  case when C190=. then 0 else C190 end  case when C200=. then 0 else C200 end  case when C230=. then 0 else C230 end  case when C240=. then 0 else C240 end  case when C250=. then 0 else C250 end  case when C255=. then 0 else C255 end case when C250=. then 0 else C250 end case when C260=. then 0 else C260 end case when C270=. then 0 else C270 end case when C280=. then 0 else C280 end ;C280;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end case when C030=. then 0 else C030 end  case when C040=. then 0 else C040 end  case when C070=. then 0 else C070 end  case when C080=. then 0 else C080 end case when C090=. then 0 else C090 end  case when C100=. then 0 else C100 end  case when C110=. then 0 else C110 end  case when C120=. then 0 else C120 end case when C130=. then 0 else C130 end case when C140=. then 0 else C140 end case when C150=. then 0 else C150 end  case when C180=. then 0 else C180 end  case when C190=. then 0 else C190 end  case when C200=. then 0 else C200 end  case when C230=. then 0 else C230 end  case when C240=. then 0 else C240 end  case when C250=. then 0 else C250 end  case when C255=. then 0 else C255 end case when C250=. then 0 else C250 end case when C260=. then 0 else C260 end case when C270=. then 0 else C270 end case when C280=. then 0 else C280 end case when C290=. then 0 else C290 end ;C290;undefined;TABLA3281_BS_TSB_PRE1
+case when C010=. then 0 else C010 end  case when C020=. then 0 else C020 end case when C030=. then 0 else C030 end  case when C040=. then 0 else C040 end  case when C070=. then 0 else C070 end  case when C080=. then 0 else C080 end case when C090=. then 0 else C090 end  case when C100=. then 0 else C100 end  case when C110=. then 0 else C110 end  case when C120=. then 0 else C120 end case when C130=. then 0 else C130 end case when C140=. then 0 else C140 end case when C150=. then 0 else C150 end  case when C180=. then 0 else C180 end  case when C190=. then 0 else C190 end  case when C200=. then 0 else C200 end  case when C230=. then 0 else C230 end  case when C240=. then 0 else C240 end  case when C250=. then 0 else C250 end  case when C255=. then 0 else C255 end case when C250=. then 0 else C250 end case when C260=. then 0 else C260 end case when C270=. then 0 else C270 end case when C280=. then 0 else C280 end case when C290=. then 0 else C290 end case when C300=. then 0 else C300 end ;C300;undefined;TABLA3281_BS_TSB_PRE1
 C_PDxEAD;C_PDxEAD;undefined;TABLA3281_BS_TSB_PRE1
 C_LGDxEAD;C_LGDxEAD;undefined;TABLA3281_BS_TSB_PRE1
 C_LGDEFxEAD;C_LGDEFxEAD;undefined;TABLA3281_BS_TSB_PRE1
@@ -698,7 +815,7 @@ TABLA3281_BS_TSB_PRE1;WORK;t1;
 ;FILTROS;GROUPS;ORDERS
 ;NO FILTERS;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 TABLA3281_BS_TSB_PRE2;WORK;undefined;36
@@ -737,10 +854,10 @@ ROW;t1.ROW;t1;TABLA3281_BS_TSB_PRE1_5
 (SUM(t1.C_LGDxEAD));C_LGDxEAD;undefined;TABLA3281_BS_TSB_PRE1_5
 (SUM(t1.C_LGDEFxEAD));C_LGDEFxEAD;undefined;TABLA3281_BS_TSB_PRE1_5
 (SUM(t1.C_MxEAD));C_MxEAD;undefined;TABLA3281_BS_TSB_PRE1_5
-SUM(case@when@C_PDxEAD@NOT=.@then@C110@else@0@end);C110_PD;undefined;TABLA3281_BS_TSB_PRE1_5
-SUM(case@when@C_LGDxEAD@NOT=.@then@C110@else@0@end);C110_LGD;undefined;TABLA3281_BS_TSB_PRE1_5
-SUM(case@when@C_LGDEFxEAD@NOT=.@then@C140@else@0@end);C140_LGD;undefined;TABLA3281_BS_TSB_PRE1_5
-SUM(case@when@C_MxEAD@NOT=.@then@C110@else@0@end);C110_M;undefined;TABLA3281_BS_TSB_PRE1_5
+se when C_PDxEAD NOT=. then C110 else 0 end;C110_PD;undefined;TABLA3281_BS_TSB_PRE1_5
+se when C_LGDxEAD NOT=. then C110 else 0 end;C110_LGD;undefined;TABLA3281_BS_TSB_PRE1_5
+se when C_LGDEFxEAD NOT=. then C140 else 0 end;C140_LGD;undefined;TABLA3281_BS_TSB_PRE1_5
+se when C_MxEAD NOT=. then C110 else 0 end;C110_M;undefined;TABLA3281_BS_TSB_PRE1_5
 ;;;
 ORIGENES;;;
 NAME;ESQUEMA;ALIAS;
@@ -748,10 +865,10 @@ TABLA3281_BS_TSB_PRE1_5;WORK;t1;
 ;;;
 ;FILTROS;GROUPS;ORDERS
 ;NO FILTERS;t1.template;NO SORTINGS
-;void;t1.data_extra;void
-;void;t1.ROW;void
+;;t1.data_extra;
+;;t1.ROW;
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 TABLA3281_BS_TSB_FIN;WORK;undefined;34
@@ -800,7 +917,7 @@ TABLA3281_BS_TSB_PRE2;WORK;t1;
 ;FILTROS;GROUPS;ORDERS
 ;NO FILTERS;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 CHECK_3281_BS_TSB_CONSO;bsco_4;undefined;1
@@ -816,7 +933,7 @@ TABLA3281_BS_TSB_FIN;WORK;t1WHERE;
 ;FILTROS;GROUPS;ORDERS
 ;NO FILTERS;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 ORDEN_FIN3281;WORK;undefined;4
@@ -833,11 +950,11 @@ NAME;ESQUEMA;ALIAS;
 TABLA3281_BS_TSB_FIN;WORK;undefined;
 ;;;
 ;FILTROS;GROUPS;ORDERS
-;void;NO GROUPINGS;TEMPLATE
-;void;void;DATA_EXTRA
-;void;void;ROW
+;;NO GROUPINGS;TEMPLATE
+;;;DATA_EXTRA
+;;;ROW
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 COL_FIN3281;WORK;undefined;0
@@ -847,9 +964,9 @@ NAME;ESQUEMA;ALIAS;
 ORDEN_FIN3281;WORK;undefined;
 ;;;
 ;FILTROS;GROUPS;ORDERS
-;void;NO GROUPINGS;NO SORTINGS
+;;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 PYRAMID_3281_BS_TSB_FIN;WORK;undefined;7
@@ -871,10 +988,10 @@ MAESTRO_CELDAS_COREP;BSCO;t2;
 ;;;
 ;FILTROS;GROUPS;ORDERS
 ;t1.COL1 NOT=.;NO GROUPINGS;t2.COREP_2,
-;void;void;t1.DATA_EXTRA,
-;void;void;t2.CEL
+;;;t1.DATA_EXTRA,
+;;;t2.CEL
 ;;;
-STEP;;;
+STEP;data;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 PYRAMID_3281_FIN_CONSO_&mes;bsco_4;undefined;0
@@ -885,7 +1002,7 @@ PYRAMID_3281_BS_TSB_FIN;WORK;undefined;
 ;;;
 ;FILTROS;GROUPS;ORDERS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 C92_1_CATEGO;WORK;undefined;13
@@ -900,11 +1017,11 @@ C110;C110_EAD;t1;CHECK_3281_BS_TSB_CONSO
 (t1.C230*(t1.C110-t1.C140));LGDxEAD_noEEFF;undefined;CHECK_3281_BS_TSB_CONSO
 C140;C140_EAD_EEFF;t1;CHECK_3281_BS_TSB_CONSO
 (t1.C110-t1.C140);EAD_no_EEFF;undefined;CHECK_3281_BS_TSB_CONSO
-(case@when@data_extra@IN@('006','007','011','013','014','015','016','017')@then@1@else@0@end);CAT_TOTAL;undefined;CHECK_3281_BS_TSB_CONSO
-(case@when@data_extra@IN@('007','011')@then@1@else@0@end);CAT_CORP;undefined;CHECK_3281_BS_TSB_CONSO
-(case@when@data_extra@IN@('013','014','015','016','017')@then@1@else@0@end);CAT_RETAIL;undefined;CHECK_3281_BS_TSB_CONSO
-(case@when@data_extra@IN@('013','014')@Then@1@else@0@end);CAT_HIPO;undefined;CHECK_3281_BS_TSB_CONSO
-(case@when@data_extra@IN@('016','017')@then@1@else@0@end);CAT_OTHER_RETAIL;undefined;CHECK_3281_BS_TSB_CONSO
+when data_extra IN '006','007','011','013','014','015','016','017' then 1 else 0 end;CAT_TOTAL;undefined;CHECK_3281_BS_TSB_CONSO
+when data_extra IN '007','011' then 1 else 0 end;CAT_CORP;undefined;CHECK_3281_BS_TSB_CONSO
+when data_extra IN '013','014','015','016','017' then 1 else 0 end;CAT_RETAIL;undefined;CHECK_3281_BS_TSB_CONSO
+when data_extra IN '013','014' Then 1 else 0 end;CAT_HIPO;undefined;CHECK_3281_BS_TSB_CONSO
+when data_extra IN '016','017' then 1 else 0 end;CAT_OTHER_RETAIL;undefined;CHECK_3281_BS_TSB_CONSO
 ;;;
 ORIGENES;;;
 NAME;ESQUEMA;ALIAS;
@@ -913,7 +1030,7 @@ CHECK_3281_BS_TSB_CONSO;BSCO_4;t1;
 ;FILTROS;GROUPS;ORDERS
 ;NO FILTERS;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 C92_1_CATEGO_CORP;WORK;undefined;8
@@ -936,7 +1053,7 @@ C92_1_CATEGO;WORK;t1;
 ;FILTROS;GROUPS;ORDERS
 ;t1.CAT_CORP=1;t1.CAT_CORP;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 C92_1_CATEGO_RETAIL;WORK;undefined;8
@@ -959,7 +1076,7 @@ C92_1_CATEGO;WORK;t1;
 ;FILTROS;GROUPS;ORDERS
 ;t1.CAT_RETAIL=1;t1.CAT_RETAIL;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 C92_1_CATEGO_HIPO;WORK;undefined;8
@@ -982,7 +1099,7 @@ C92_1_CATEGO;WORK;t1;
 ;FILTROS;GROUPS;ORDERS
 ;t1.CAT_HIPO=1;t1.CAT_HIPO;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 C92_1_CATEGO_OTHER_RETAIL;WORK;undefined;8
@@ -1005,7 +1122,7 @@ C92_1_CATEGO;WORK;t1;
 ;FILTROS;GROUPS;ORDERS
 ;t1.CAT_OTHER_RETAIL=1;t1.CAT_OTHER_RETAIL;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 C92_1_CATEGO_TOTAL;WORK;undefined;8
@@ -1028,7 +1145,7 @@ C92_1_CATEGO;WORK;t1;
 ;FILTROS;GROUPS;ORDERS
 ;t1.CAT_TOTAL=1;t1.CAT_TOTAL;NO SORTINGS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 C92_1_CATEGO_RESTO;WORK;undefined;8
@@ -1040,9 +1157,9 @@ C110_EAD;t1.C110_EAD;t1;C92_1_CATEGO
 LGDxEAD_noEEFF;t1.LGDxEAD_noEEFF;t1;C92_1_CATEGO
 C140_EAD_EEFF;t1.C140_EAD_EEFF;t1;C92_1_CATEGO
 EAD_no_EEFF;t1.EAD_no_EEFF;t1;C92_1_CATEGO
-(case@when@DATA_EXTRA='006'@then@'0702'@when@DATA_EXTRA='007'@then@'0705'@when@DATA_EXTRA='013'@then@'0708'@when@DATA_EXTRA='014'@then@'0709'@when@DATA_EXTRA='015'@then@'0710'@when@DATA_EXTRA='016'@then@'0712'@when@DATA_EXTRA='017'@then@'0713'@else@''@end@);CEL_PD;undefined;C92_1_CATEGO
-(case@when@DATA_EXTRA='006'@then@'0802'@when@DATA_EXTRA='007'@then@'0805'@when@DATA_EXTRA='013'@then@'0808'@when@DATA_EXTRA='014'@then@'0809'@when@DATA_EXTRA='015'@then@'0810'@when@DATA_EXTRA='016'@then@'0812'@when@DATA_EXTRA='017'@then@'0813'@else@''@end@);CEL_LGD;undefined;C92_1_CATEGO
-(case@when@DATA_EXTRA='006'@then@'R020'@when@DATA_EXTRA='007'@then@'R050'@when@DATA_EXTRA='013'@then@'R080'@when@DATA_EXTRA='014'@then@'R090'@when@DATA_EXTRA='015'@then@'R100'@when@DATA_EXTRA='016'@then@'R120'@when@DATA_EXTRA='017'@then@'R130'@else@''@end);ROW;undefined;C92_1_CATEGO
+when DATA_EXTRA='006' then '0702' when DATA_EXTRA='007' then '0705' when DATA_EXTRA='013' then '0708' when DATA_EXTRA='014' then '0709' when DATA_EXTRA='015' then '0710' when DATA_EXTRA='016' then '0712' when DATA_EXTRA='017' then '0713' else '' end ;CEL_PD;undefined;C92_1_CATEGO
+when DATA_EXTRA='006' then '0802' when DATA_EXTRA='007' then '0805' when DATA_EXTRA='013' then '0808' when DATA_EXTRA='014' then '0809' when DATA_EXTRA='015' then '0810' when DATA_EXTRA='016' then '0812' when DATA_EXTRA='017' then '0813' else '' end ;CEL_LGD;undefined;C92_1_CATEGO
+when DATA_EXTRA='006' then 'R020' when DATA_EXTRA='007' then 'R050' when DATA_EXTRA='013' then 'R080' when DATA_EXTRA='014' then 'R090' when DATA_EXTRA='015' then 'R100' when DATA_EXTRA='016' then 'R120' when DATA_EXTRA='017' then 'R130' else '' end;ROW;undefined;C92_1_CATEGO
 ;;;
 ORIGENES;;;
 NAME;ESQUEMA;ALIAS;
@@ -1051,7 +1168,7 @@ C92_1_CATEGO;WORK;t1;
 ;FILTROS;GROUPS;ORDERS
 ;NO FILTERS;NO GROUPINGS;NO SORTINGS
 ;;;
-STEP;;;
+STEP;data;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 C92_PD_LGD_1;WORK;undefined;0
@@ -1067,7 +1184,7 @@ C92_1_CATEGO_OTHER_RETAIL;WORK;undefined;
 ;;;
 ;FILTROS;GROUPS;ORDERS
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 ORDEN_C92;WORK;undefined;0
@@ -1077,9 +1194,9 @@ NAME;ESQUEMA;ALIAS;
 C92_PD_LGD_1;WORK;undefined;
 ;;;
 ;FILTROS;GROUPS;ORDERS
-;void;NO GROUPINGS;ROW
+;;NO GROUPINGS;ROW
 ;;;
-STEP;;;
+STEP;PROC;
 OUTPUT TABLES;;;
 NAME;ESQUEMA;ALIAS;N_COLUMNAS
 C92_PD_LGD_2_CONSO;BSCO_4;undefined;6

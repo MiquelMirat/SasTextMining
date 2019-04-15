@@ -54,7 +54,7 @@ public class FileManager {
     public void writeCSV(ArrayList<Step> steps) {
         csv = new StringBuilder();
         for (Step s : steps) {
-            csv.append(";;;\nSTEP;;;\nOUTPUT TABLES;;;\nNAME;ESQUEMA;ALIAS;N_COLUMNAS\n");
+            csv.append(";;;\nSTEP;"+ s.getType() +";\nOUTPUT TABLES;;;\nNAME;ESQUEMA;ALIAS;N_COLUMNAS\n");
             for (Table t : s.getOut_tables()) {
                 csv.append(t.getName() + ";" + t.getEsquema() + ";" + t.getAlias() + ";" + t.getColumnas().size() + "\n");
                 if (t.getColumnas().size() > 0) {

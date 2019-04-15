@@ -85,6 +85,8 @@ public class Table {
                 throw new EmptyStatementException("NO COLUMNS EXCEPTION");
             }
             String[] lines = content.split("\n");
+            String[] words;
+            String caseWhen = "";
             String w1, w2, w3;
             for (String l : lines) {
                 temp = new Column();
@@ -102,6 +104,10 @@ public class Table {
                         
                         w1 = l.split(" ")[0];
                         w2 = l.split(" ")[1];
+//                        if (w1.contains("@")) {
+//                            //ELIMINAMOS LOS @                      LOS PARENTESIS                             EL PREFIJO KEEP        
+//                            w1 = w1.replaceAll("@", "\n").replaceAll("\\(", "").replaceAll("\\)", "").substring(5);
+//                        }
                         temp = new Column(w2).full(w1);
                         
                         break;
@@ -110,21 +116,46 @@ public class Table {
                         l = l.trim();
                         w1 = l.split(" ")[0];
                         w3 = l.split(" ")[2];
-                           temp = new Column(w3).full(w1);
+                        temp = new Column(w3).full(w1);
+                        if (temp.getName().contains("@")) {
+                            //ELIMINAMOS LOS @                      LOS PARENTESIS                             EL PREFIJO KEEP        
+                            temp.setName(temp.getName().replaceAll("@", " ").replaceAll("\\(", "").replaceAll("\\)", "").substring(5));
+                        }
+                        
                         break;
                     case 4:
-                        temp = new Column("default", "default", "default");
-                        break;
-                    default:
-                        //System.out.println("WHATT??"+l.split(" ").length+"--->"+l);
-                        String[] words = l.split(" ");
-                        String caseWhen = "";
+                        System.out.println("TABLE.JAVA CALC COLUMNS, WORDS: 4" );
+                        words = l.split(" ");
                         w3 = words[words.length - 1];
                         for (String w : words) {
                             if (w.equalsIgnoreCase("as")) {
                                 break;
                             }
                             caseWhen += w + " ";
+                        }
+                        if (caseWhen.contains("@")) {
+                            //ELIMINAMOS LOS @                      LOS PARENTESIS                             EL PREFIJO KEEP        
+                            caseWhen = caseWhen.replaceAll("@", " ").replaceAll("\\(", "").replaceAll("\\)", "").substring(5);
+                        }
+                        temp = new Column(caseWhen, w3, "undefined");
+                        
+                        
+                        break;
+                    default:
+                        //System.out.println("TABLE.JAVA CALC COLUMNS, WORDS: MORE THAN 4" );
+                        //System.out.println("WHATT??"+l.split(" ").length+"--->"+l);
+                        words = l.split(" ");
+                       
+                        w3 = words[words.length - 1];
+                        for (String w : words) {
+                            if (w.equalsIgnoreCase("as")) {
+                                break;
+                            }
+                            caseWhen += w + " ";
+                        }
+                        if (caseWhen.contains("@")) {
+                            //ELIMINAMOS LOS @                      LOS PARENTESIS                             EL PREFIJO KEEP        
+                            caseWhen = caseWhen.replaceAll("@", "\n").replaceAll("\\(", "").replaceAll("\\)", "").substring(5);
                         }
                         temp = new Column(caseWhen, w3, "undefined");
                 }

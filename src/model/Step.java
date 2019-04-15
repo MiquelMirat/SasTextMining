@@ -88,13 +88,13 @@ abstract public class Step {
         //System.out.println(biggest);
         for(int i = 0; i<biggest; i++){
             if(this.getFilters().size()<=i){
-                this.getFilters().add("void");
+                this.getFilters().add("");
             }
             if(this.getSorted_by().size()<=i){
-                this.getSorted_by().add("void");
+                this.getSorted_by().add("");
             }
             if(this.getGroupings().size()<=i){
-                this.getGroupings().add("void");
+                this.getGroupings().add("");
             }
             
         }
