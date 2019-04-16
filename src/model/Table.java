@@ -104,10 +104,10 @@ public class Table {
                         
                         w1 = l.split(" ")[0];
                         w2 = l.split(" ")[1];
-//                        if (w1.contains("@")) {
-//                            //ELIMINAMOS LOS @                      LOS PARENTESIS                             EL PREFIJO KEEP        
-//                            w1 = w1.replaceAll("@", "\n").replaceAll("\\(", "").replaceAll("\\)", "").substring(5);
-//                        }
+                        if (w1.contains("@")) {
+                            //ELIMINAMOS LOS @                      LOS PARENTESIS                             EL PREFIJO KEEP        
+                            w1 = w1.replaceAll("@", " ").replaceAll("\\(", "").replaceAll("\\)", "").substring(5);
+                        }
                         temp = new Column(w2).full(w1);
                         
                         break;
@@ -124,7 +124,7 @@ public class Table {
                         
                         break;
                     case 4:
-                        System.out.println("TABLE.JAVA CALC COLUMNS, WORDS: 4" );
+                        //System.out.println("TABLE.JAVA CALC COLUMNS, WORDS: 4" );
                         words = l.split(" ");
                         w3 = words[words.length - 1];
                         for (String w : words) {
@@ -155,7 +155,7 @@ public class Table {
                         }
                         if (caseWhen.contains("@")) {
                             //ELIMINAMOS LOS @                      LOS PARENTESIS                             EL PREFIJO KEEP        
-                            caseWhen = caseWhen.replaceAll("@", "\n").replaceAll("\\(", "").replaceAll("\\)", "").substring(5);
+                            caseWhen = caseWhen.replaceAll("@", " ").replaceAll("\\(", "").replaceAll("\\)", "").substring(5);
                         }
                         temp = new Column(caseWhen, w3, "undefined");
                 }
@@ -213,6 +213,9 @@ public class Table {
               +BLUE +"ESQUEMA: "+ NONE +Manager.withRightPadding(esquema)
               +BLUE +"ALIAS: "+ NONE +Manager.withRightPadding(alias)
               +BLUE +"N. COLUMNAS: "+ NONE +Manager.withRightPadding(String.valueOf(columnas.size()));
+    }
+    public String toCSV(){
+        return esquema +";"+name+";"+alias+";";
     }
 
 }

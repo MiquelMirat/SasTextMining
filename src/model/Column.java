@@ -98,6 +98,9 @@ public class Column {
               +BLUE +"TABLA ORIGEN: "+NONE+Manager.withRightPadding(tablaOrigen.getName());
 
     }
+    public String toCSV(){
+        return alias+";"+aliasOrigen+";"+tablaOrigen.getName()+";"+name+";";
+    }
     public String tabbed(String text){
         text = text.trim();
         if(text.length() > 23){

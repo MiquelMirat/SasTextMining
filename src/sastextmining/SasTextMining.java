@@ -26,16 +26,26 @@ public class SasTextMining {
 
     public static void main(String[] args) {
         //recojemos el fichero
+        //leemos fichero
         mng.read("text.sas");
+        //formateamos el contenido
         mng.prepareInput();
+        //dividimos el contenido en pasos
         mng.calcSteps();
-
+        
+        //para cada uno de los steps 
         for (Step s : mng.getSteps()) {
+            //archivamos los comentarios
             s.archiveComments();
+            //dividimos en sus partes
             s.divideStatements();
+            //calculamos sus tablas de salida
             s.calcOutputTables();
+            //calculamos sus tablas de entrada
             s.calcInputTables();
+            //para cada tabla de salida de cada step
             for (Table t : s.getOut_tables()) {
+                //calculamos la columnas
                 t.calcColumns(s);
                 //NOTA-- en los bloques transpose, las columnas son nulas siempre...
                 //FALTA ADECUARDLO A LOS CASE WHEN
@@ -50,7 +60,8 @@ public class SasTextMining {
 //        for (Step s : mng.getSteps()) {
 //            s.printStep();
 //        }
-        mng.writeCSV();
+        //mng.writeCSV();
+        mng.writeCSV2();
         
         //estaba haciendo el metodo fill arrays en Step, para hacer que las arrays de filtros orders i groups sean del mismo 
         //tmaaño para escribirlo en el csv

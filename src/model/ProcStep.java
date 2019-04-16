@@ -167,7 +167,8 @@ public class ProcStep extends Step{
                 break;
             case "SORT":
             case "TRANSPOSE":
-                //System.out.println("SORT TRANSPOSE OUTPUT");
+//                System.out.println("SORT TRANSPOSE OUTPUT");
+//                System.out.println("OUT STATEMENT: "+ this.getOut());
                 if(this.getOut() == ""){ break; }
                 content = this.getOut().substring(4);
                 for(String table: content.split(" ")){

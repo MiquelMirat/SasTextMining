@@ -32,6 +32,9 @@ public class Manager {
     public void writeCSV(){
         fm.writeCSV(this.steps);
     }
+    public void writeCSV2(){
+        fm.writeCSV2(this.steps);
+    }
     public void prepareInput(){
         String temp = this.content;
         //System.out.println("FIRST:"+ temp);
@@ -44,6 +47,7 @@ public class Manager {
                    .replace(";","; ")
                    .replace("*/","*/ ")
                    .replace("SELECT", "SELECT ")
+                   .replace("(RENAME=", " (RENAME=") //CAMBIO
                    .replaceAll("\\s+", " ");
         
         //System.out.println("SEC :"+ temp);
@@ -64,7 +68,7 @@ public class Manager {
     
     
     
-    
+    //content que contiene las columnas del step
     public String chooseContentForStep(Step s){
         String content = "";
         if(s instanceof ProcStep){
