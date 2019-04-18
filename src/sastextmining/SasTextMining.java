@@ -38,8 +38,11 @@ public class SasTextMining {
         String outputFolder = "";
 
         try {
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-
+            try {
+                UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            } catch (UnsupportedLookAndFeelException | IllegalAccessException | ClassNotFoundException | InstantiationException ex) {
+            
+            }
             fm.readFolderContent(getInputFolder());
             fm.output(getOutputFolder());
             
@@ -52,11 +55,10 @@ public class SasTextMining {
 //                    }
 //                }
 //            }
-        } catch (UnsupportedLookAndFeelException | IllegalAccessException | ClassNotFoundException | InstantiationException ex) {
-            Logger.getLogger(SasTextMining.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CustomException e){
+        }  catch (CustomException e){
             System.out.println(e.getMessage());
             promptError("Error selecting files");
+            System.out.println("hello?");
         }
 
     }
@@ -65,6 +67,8 @@ public class SasTextMining {
         JFrame frame = new JFrame();
         JOptionPane.showMessageDialog(new JFrame(),
             msg);
+        System.exit(0);
+        
     }
 
     public static String getInputFolder() throws CustomException {
