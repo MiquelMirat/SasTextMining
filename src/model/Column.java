@@ -99,6 +99,10 @@ public class Column {
 
     }
     public String toCSV(){
+//        System.out.println(alias);
+//        System.out.println(aliasOrigen);
+//        //System.out.println(tablaOrigen.getName());
+//        System.out.println(name);
         return alias+";"+aliasOrigen+";"+tablaOrigen.getName()+";"+name+";";
     }
     public String tabbed(String text){

@@ -16,27 +16,23 @@ import model.Step;
  * @author miquel.mirat
  */
 public class Manager {
-    
+    private static Manager instance;
     ArrayList<Step> steps = new ArrayList<>();
     FileManager fm;
     String content;
     
-    public Manager(){
-        this.fm = new FileManager();
-        this.content = "";
+    private Manager(){
+    }
+    public  static Manager getInstance() {
+ 
+    if (instance==null) {
+        instance= new Manager();
+    }
+        return instance;
     }
     
-    public void read(String filename){
-        this.content = fm.readFile(filename);
-    }
-    public void writeCSV(){
-        fm.writeCSV(this.steps);
-    }
-    public void writeCSV2(){
-        fm.writeCSV2(this.steps);
-    }
-    public void prepareInput(){
-        String temp = this.content;
+    public String prepareInput(String fileContent){
+        String temp = fileContent;
         //System.out.println("FIRST:"+ temp);
         temp = temp.replace("\n"," ")
                    .replace("\r","")
@@ -63,9 +59,10 @@ public class Manager {
             formatted += c;
         }
         this.content = formatted;
+        return formatted;
         //System.out.println("THIRD:"+ this.content);
     }
-    
+  
     
     
     //content que contiene las columnas del step
@@ -88,37 +85,6 @@ public class Manager {
         return content;
     }
     
-    
-    public void /* ArrayList<Step> */calcSteps(){
-        boolean inStep = false;
-        ArrayList<Step> steps = new ArrayList<>();
-        String[] words = this.content.split(" ");
-        System.out.println(words.length);
-        Step temp = null;
-        
-        for (String w: words){
-            if(w.equalsIgnoreCase("proc")){
-                //System.out.println("proooc");
-                temp = new ProcStep("PROC");
-                inStep = true;
-            }
-            if(w.equalsIgnoreCase("data")){
-                temp = new DataStep("DATA");
-                inStep = true;
-            }
-            if(w.equalsIgnoreCase("quit") || w.equalsIgnoreCase("run")){
-                steps.add(temp);
-                inStep = false;
-            }
-            if(inStep){
-                temp.setRawContent(temp.getRawContent() + " " + w);
-            }
-        }
-        this.steps = steps;
-        System.out.println(this.steps.size());
-        //return steps;
-    }
-
     public static String tabbed(String text){
         text = text.trim();
         if(text.length() > 23){

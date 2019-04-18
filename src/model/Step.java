@@ -16,6 +16,7 @@ abstract public class Step {
     private final String RED = "\u001B[31m";
     private final String BOLD = "\u001b[4m";
     private final String NONE = "\u001b[0m";
+    private String sourceFile = "";
     private String rawContent;
     private String type;
     private ArrayList<Comment> comments = new ArrayList<>();
@@ -32,9 +33,10 @@ abstract public class Step {
         this.type = "";
         
     }
-    public Step(String type){
+    public Step(String type, String file){
         this.rawContent = "";
         this.type = type;
+        this.sourceFile = file;
         
     }
     
@@ -171,5 +173,9 @@ abstract public class Step {
     public void setFilters(ArrayList<String> filters) {this.filters = filters;}
     public ArrayList<String> getGroupings() {return groupings;}
     public void setGroupings(ArrayList<String> groupings) {this.groupings = groupings;}
+    public String getSourceFile() {return sourceFile;}
+    public void setSourceFile(String sourceFile) {this.sourceFile = sourceFile;}
+    
+    
     
 }

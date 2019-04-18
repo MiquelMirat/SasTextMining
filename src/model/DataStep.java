@@ -26,8 +26,8 @@ public class DataStep extends Step{
         this.keep = "";
         this.drop = "";
     }
-    public DataStep(String type){
-        super(type);
+    public DataStep(String type, String file){
+        super(type, file);
         this.data = "";
         this.set = "";
         this.keep = "";

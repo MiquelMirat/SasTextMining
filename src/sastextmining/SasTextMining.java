@@ -5,12 +5,21 @@
  */
 package sastextmining;
 
+import Exceptions.CustomException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import manager.FileManager;
 import manager.Manager;
 import model.Column;
 import model.DataStep;
 import model.ProcStep;
+import model.SASFile;
 import model.Step;
 import model.Table;
 
@@ -21,65 +30,68 @@ import model.Table;
 public class SasTextMining {
 
     static FileManager fm = new FileManager();
-    static Manager mng = new Manager();
+    static Manager mng = Manager.getInstance();
     static ArrayList<Step> steps = null;
 
     public static void main(String[] args) {
-        //recojemos el fichero
-        //leemos fichero
-        mng.read("text.sas");
-        //formateamos el contenido
-        mng.prepareInput();
-        //dividimos el contenido en pasos
-        mng.calcSteps();
-        
-        //para cada uno de los steps 
-        for (Step s : mng.getSteps()) {
-            //archivamos los comentarios
-            s.archiveComments();
-            //dividimos en sus partes
-            s.divideStatements();
-            //calculamos sus tablas de salida
-            s.calcOutputTables();
-            //calculamos sus tablas de entrada
-            s.calcInputTables();
-            //para cada tabla de salida de cada step
-            for (Table t : s.getOut_tables()) {
-                //calculamos la columnas
-                t.calcColumns(s);
-                //NOTA-- en los bloques transpose, las columnas son nulas siempre...
-                //FALTA ADECUARDLO A LOS CASE WHEN
+        String inputFolder = "";
+        String outputFolder = "";
 
-            }
-            s.calcFilters();
-            s.calcGroupings();
-            s.calcSortings();
-            s.fillArrays();
+        try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+
+            fm.readFolderContent(getInputFolder());
+            fm.output(getOutputFolder());
             
+//            for (SASFile sas : fm.getSasFiles()) {
+//                for (Step s : sas.getSteps()) {
+//                    for (Table t : s.getOut_tables()) {
+//                        for (Column c : t.getColumnas()) {
+//                            System.out.println(c.toString());
+//                        }
+//                    }
+//                }
+//            }
+        } catch (UnsupportedLookAndFeelException | IllegalAccessException | ClassNotFoundException | InstantiationException ex) {
+            Logger.getLogger(SasTextMining.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CustomException e){
+            System.out.println(e.getMessage());
+            promptError("Error selecting files");
         }
-//        for (Step s : mng.getSteps()) {
-//            s.printStep();
-//        }
-        //mng.writeCSV();
-        mng.writeCSV2();
-        
-        //estaba haciendo el metodo fill arrays en Step, para hacer que las arrays de filtros orders i groups sean del mismo 
-        //tmaaño para escribirlo en el csv
-        
-        
 
-        //archivamos los comnetarios de los steps
-        //calculamos el contenido de los steps
-//        String test = "hello   extra    spaces";
-//        System.out.println(test);
-//        test = test.replaceAll("\\s+"," ");
-//        System.out.println(test);
-        /*
-         String s1 = "WWWWWWW\tWWWWWWW";
-         String s2 = "iiiiiii\tWWWWWWW";
-         System.out.println(s1);
-         System.out.println(s2);
-         */
+    }
+    
+    public static void promptError(String msg ){
+        JFrame frame = new JFrame();
+        JOptionPane.showMessageDialog(new JFrame(),
+            msg);
+    }
+
+    public static String getInputFolder() throws CustomException {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Selecciona el directorio con los .SAS dentro");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            return String.valueOf(chooser.getSelectedFile());
+        } else {
+            throw new CustomException("Select input folder!");
+        }
+    }
+
+    public static String getOutputFolder() throws CustomException {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Selecciona el directorio para los ficheros .csv");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            return String.valueOf(chooser.getSelectedFile());
+        } else {
+            throw new CustomException("Select output folder!");
+        }
+
     }
 
 }

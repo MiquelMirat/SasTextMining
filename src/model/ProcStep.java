@@ -48,8 +48,8 @@ public class ProcStep extends Step{
         
         this.var = "";
     }
-    public ProcStep(String type) {
-        super(type);
+    public ProcStep(String type,String file) {
+        super(type,file);
         this.create = "";this.select = "";
         this.from = "";this.where = "";
         this.group = "";this.order = "";
@@ -113,13 +113,14 @@ public class ProcStep extends Step{
             if(group)   {this.group += w + " ";}
             if(order)   {this.order += w + " ";} 
             
+            
         }//end foreach
         
         //TRIMEAMOS TODOS LOS BLOQUES
         this.create = this.create.trim();   this.select = this.select.trim();
         this.from = this.from.trim();       this.where = this.where.trim();
         this.group = this.group.trim();      this.order = this.order.trim();
-        //System.out.println(this.from);
+        //System.out.println(this.select);
     }
     
     public void divideSortTransposeStatements(String[] words){

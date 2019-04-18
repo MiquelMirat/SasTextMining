@@ -20,7 +20,7 @@ public class Table {
     private String esquema;
     private String alias;
     private ArrayList<Column> columnas;
-    private Manager manager = new Manager();
+    private Manager manager = Manager.getInstance();
 
     public Table() {
         this.name = "";
@@ -89,6 +89,7 @@ public class Table {
             String caseWhen = "";
             String w1, w2, w3;
             for (String l : lines) {
+                //System.out.println("FULL LINE: " + l);
                 temp = new Column();
                 switch (l.trim().split(" ").length) {
                     case 1:
@@ -121,7 +122,6 @@ public class Table {
                             //ELIMINAMOS LOS @                      LOS PARENTESIS                             EL PREFIJO KEEP        
                             temp.setName(temp.getName().replaceAll("@", " ").replaceAll("\\(", "").replaceAll("\\)", "").substring(5));
                         }
-                        
                         break;
                     case 4:
                         //System.out.println("TABLE.JAVA CALC COLUMNS, WORDS: 4" );
@@ -140,26 +140,31 @@ public class Table {
                         temp = new Column(caseWhen, w3, "undefined");
                         
                         
+                        
                         break;
                     default:
                         //System.out.println("TABLE.JAVA CALC COLUMNS, WORDS: MORE THAN 4" );
                         //System.out.println("WHATT??"+l.split(" ").length+"--->"+l);
                         words = l.split(" ");
-                       
+                        caseWhen = "";
                         w3 = words[words.length - 1];
                         for (String w : words) {
                             if (w.equalsIgnoreCase("as")) {
                                 break;
                             }
-                            caseWhen += w + " ";
+                            if(!w.equals(" ")){
+                                caseWhen += w.trim() + " ";
+                            }
                         }
                         if (caseWhen.contains("@")) {
                             //ELIMINAMOS LOS @                      LOS PARENTESIS                             EL PREFIJO KEEP        
-                            caseWhen = caseWhen.replaceAll("@", " ").replaceAll("\\(", "").replaceAll("\\)", "").substring(5);
+                            caseWhen = caseWhen.replaceAll("@", " ").replaceAll("\\(", "").replaceAll("\\)", "").substring(5).trim();
                         }
                         temp = new Column(caseWhen, w3, "undefined");
+                        
+                        
                 }
-                //System.out.println("TEMP: "+ temp.getAlias());
+                //System.out.println("BEFORE ADDING: "+ temp.toCSV());
                 this.getColumnas().add(temp);
             }
             //System.out.println("SIZEEEE  " + tablas_entrada.size());
@@ -172,10 +177,6 @@ public class Table {
                     //System.out.println("name "+ c.getName());
                     //System.out.println("aliasorigen "+ c.getAliasOrigen());
                     if (c.getAliasOrigen().equalsIgnoreCase(t.alias)) {
-                        /*
-                        System.out.println("COINICIDENCIAAAA");
-                        System.out.println(t.toString());
-                        System.out.println(c.toString());*/
                         c.setTablaOrigen(t);
                     }
                 }
@@ -187,6 +188,7 @@ public class Table {
                    && s.getIn_tables().size() == 1){
                     c.setTablaOrigen(s.getIn_tables().get(0));
                 }
+                //System.out.println("CALC COLUMNS FINAL: " + c.toCSV());
             }
             
         } catch (EmptyStatementException e) {
